@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 字典类别数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.DictionaryCategoryMapper" >
+
+    <select id="get" resultType="dictionaryCategory">
+          SELECT
+            id AS "id",
+			code AS "code",
+			name AS "name",
+			remark AS "remark"
+          FROM
+            tb_dictionary_category
+          WHERE
+              id = #{id}
+    </select>
+
+    <select id="getAll" resultType="dictionaryCategory">
+          SELECT
+            id AS "id",
+			code AS "code",
+			name AS "name",
+			remark AS "remark"
+          FROM
+            tb_dictionary_category
+          <if test="ignore != null and ignore.length > 0">
+            WHERE id NOT IN
+            <foreach collection="ignore" item="id" index="index" open="(" separator="," close=")" >
+              #{id}
+            </foreach>
+          </if>
+    </select>
+
+    <select id="find" resultType="dictionaryCategory">
+        <trim prefix="WHERE" prefixOverrides="AND" />
+        SELECT
+          id AS "id",
+          code AS "code",
+          name AS "name",
+          remark AS "remark"
+        FROM
+          tb_dictionary_category
+        <where>
+            <if test="filter.code != null and filter.code != ''">
+                code = #{filter.code}
+            </if>
+    
+            <if test="filter.name != null and filter.name != ''">
+                <bind name="filter.name" value=" '%' + filter.name + '%' " />
+                AND name LIKE #{filter.name}
+            </if>
+        </where>
+        ORDER BY id DESC
+        <if test="filter.first != null and filter.last != null">
+            LIMIT #{filter.limit.last} offset #{filter.limit.first}
+        </if>
+    </select>
+
+    <select id="count" resultType="long">
+        <trim prefix="WHERE" prefixOverrides="AND" />
+        SELECT
+          COUNT(id)
+        FROM
+          tb_dictionary_category
+        <where>
+            <if test="filter.code != null and filter.code != ''">
+                code = #{filter.code}
+            </if>
+
+            <if test="filter.name != null and filter.name != ''">
+                <bind name="filter.name" value=" '%' + filter.name + '%' " />
+                AND name LIKE #{filter.name}
+            </if>
+        </where>
+    </select>
+
+    <select id="isCodeUnique" resultType="boolean">
+        SELECT
+          count(id)
+        FROM
+          tb_dictionary_category
+        WHERE
+          code = #{code}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM tb_dictionary_category WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteDataDictionaryAssociation">
+        DELETE FROM tb_data_dictionary WHERE fk_category_id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE
+          tb_dictionary_category
+        SET
+          name=#{entity.name},
+          remark=#{entity.remark}
+        WHERE
+          id = #{entity.id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO tb_dictionary_category(
+          id,
+          code,
+          name,
+          remark
+		) VALUES (
+		  #{entity.id},
+          #{entity.code},
+          #{entity.name},
+          #{entity.remark}
+		)
+    </insert>
+
+</mapper>

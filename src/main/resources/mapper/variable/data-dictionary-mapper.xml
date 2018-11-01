@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 数据字典数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.DataDictionaryMapper" >
+
+    <select id="get" resultType="dataDictionary">
+          SELECT
+            id AS "id",
+            name AS "name",
+            code AS "code",
+            remark AS "remark",
+            type AS "type",
+            value AS "value",
+            fk_category_id AS "fkCategoryId"
+          FROM
+            tb_data_dictionary
+          WHERE
+              id = #{id}
+    </select>
+
+    <select id="getByCode" resultType="dataDictionary">
+        SELECT
+          id AS "id",
+          name AS "name",
+          code AS "code",
+          remark AS "remark",
+          type AS "type",
+          value AS "value",
+          fk_category_id AS "fkCategoryId"
+        FROM
+          tb_data_dictionary
+        WHERE
+          code = #{code}
+    </select>
+
+    <select id="getByCategoryCode" resultType="dataDictionary">
+        SELECT
+          dd.id AS "id",
+          dd.name AS "name",
+          dd.code AS "code",
+          dd.remark AS "remark",
+          dd.type AS "type",
+          dd.value AS "value",
+          dd.fk_category_id AS "fkCategoryId"
+        FROM
+          tb_data_dictionary dd
+        JOIN
+          tb_dictionary_category dc ON dc.id = dd.fk_category_id
+        WHERE
+          dc.code = #{code}
+        order by dd.sort
+    </select>
+
+    <select id="find" resultType="dataDictionary">
+        <trim prefix="WHERE" prefixOverrides="AND" />
+        SELECT
+          id AS "id",
+          name AS "name",
+          code AS "code",
+          remark AS "remark",
+          type AS "type",
+          value AS "value",
+          fk_category_id AS "fk_category_id"
+        FROM
+          tb_data_dictionary
+        <where>
+
+            <if test="filter.name != null and filter.name != ''">
+                <bind name="filter.name" value=" '%' + filter.name + '%' " />
+                name LIKE #{filter.name}
+            </if>
+
+            <if test="filter.code != null and filter.code != ''">
+                <bind name="filter.code" value=" '%' + filter.code + '%' " />
+                code LIKE #{filter.code}
+            </if>
+
+            <if test="filter.value != null and filter.value != ''">
+                <bind name="filter.value" value=" '%' + filter.value + '%' " />
+                AND value LIKE #{filter.value}
+            </if>
+
+            <if test="filter.fk_category_id != null and filter.fk_category_id != ''">
+                AND fk_category_id = #{filter.fk_category_id}
+            </if>
+
+            <if test="filter.type != null and filter.type != ''">
+                AND type = #{filter.type}
+            </if>
+
+        </where>
+        ORDER BY id DESC
+        <if test="filter.first != null and filter.last != null">
+            LIMIT #{filter.limit.last} offset #{filter.limit.first}
+        </if>
+    </select>
+
+    <select id="count" resultType="long">
+        <trim prefix="WHERE" prefixOverrides="AND" />
+        SELECT
+          count(id)
+        FROM
+          tb_data_dictionary
+        <where>
+
+            <if test="filter.name != null and filter.name != ''">
+                <bind name="filter.name" value=" '%' + filter.name + '%' " />
+                name LIKE #{filter.name}
+            </if>
+
+            <if test="filter.code != null and filter.code != ''">
+                <bind name="filter.code" value=" '%' + filter.code + '%' " />
+                code LIKE #{filter.code}
+            </if>
+
+            <if test="filter.value != null and filter.value != ''">
+                <bind name="filter.value" value=" '%' + filter.value + '%' " />
+                AND value LIKE #{filter.value}
+            </if>
+
+            <if test="filter.fk_category_id != null and filter.fk_category_id != ''">
+                AND fk_category_id = #{filter.fk_category_id}
+            </if>
+
+            <if test="filter.type != null and filter.type != ''">
+                AND type = #{filter.type}
+            </if>
+
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into tb_data_dictionary(
+          id,
+          name,
+          code,
+          remark,
+          type,
+          value,
+          fk_category_id
+        ) values (
+          #{entity.id},
+          #{entity.name},
+          #{entity.code},
+          #{entity.remark},
+          #{entity.type},
+          #{entity.value},
+          #{entity.fk_category_id}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE
+          tb_data_dictionary
+        SET
+          name=#{entity.name},
+          code=#{entity.code},
+          remark=#{entity.remark},
+          type=#{entity.type},
+          value=#{entity.value},
+          fk_category_id=#{entity.fk_category_id}
+        WHERE
+          id = #{entity.id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM tb_data_dictionary WHERE id = #{id}
+    </delete>
+
+    <select id="isCodeUnique" resultType="boolean">
+        SELECT
+          count(id)
+        FROM
+          tb_data_dictionary
+        WHERE
+          code = #{code}
+    </select>
+</mapper>

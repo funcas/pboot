@@ -1,0 +1,29 @@
+server:
+  port: 9080
+  servlet:
+    context-path: /api
+spring:
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  application:
+    name: spring-cloud-upms-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/platform?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: P@ssw0rd
+  http:
+    converters:
+      preferred-json-mapper: fastjson
+    encoding:
+      force: true
+      charset: UTF-8
+mybatis-plus:
+  mapper-locations: classpath:mapper/*/*-mapper.xml
+  type-aliases-package: com.funcas.pboot.module.*.entity
+  configuration:
+    log-prefix: dao.
+    map-underscore-to-camel-case: true

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 资源数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.ResourceMapper" >
+
+    <!--<select id="getByCode" resultType="com.funcas.foundation.core.upms.entity.Resource">-->
+        <!--SELECT-->
+          <!--id AS "id",-->
+          <!--icon AS "icon",-->
+          <!--name AS "name",-->
+          <!--permission AS "permission",-->
+          <!--remark AS "remark",-->
+          <!--sort AS "sort",-->
+          <!--type AS "type",-->
+          <!--value AS "value",-->
+          <!---->
+          <!--fk_parent_id AS "fkParentId"-->
+        <!--FROM-->
+          <!--tb_resource-->
+        <!--WHERE-->
+          <!--code = #{code}-->
+    <!--</select>-->
+
+    <select id="getChildren" resultType="com.funcas.pboot.module.upms.entity.Resource">
+        SELECT
+          id AS "id",
+          icon AS "icon",
+          component,
+          name AS "name",
+          permission AS "permission",
+          remark AS "remark",
+          sort AS "sort",
+          type AS "type",
+          value AS "value",
+          fk_parent_id AS "fkParentId"
+        FROM
+          tb_resource
+        WHERE
+          fk_parent_id = #{id}
+    </select>
+
+    <!--<select id="getParentByCode" resultType="com.funcas.foundation.core.upms.entity.Resource">-->
+        <!--SELECT-->
+          <!--id AS "id",-->
+          <!--icon AS "icon",-->
+          <!--component-->
+          <!--name AS "name",-->
+          <!--permission AS "permission",-->
+          <!--remark AS "remark",-->
+          <!--sort AS "sort",-->
+          <!--type AS "type",-->
+          <!--value AS "value",-->
+          <!--fk_parent_id AS "fkParentId"-->
+        <!--FROM-->
+          <!--tb_resource-->
+        <!--WHERE-->
+          <!--code = #{code}-->
+          <!--AND-->
+          <!--fk_parent_id IS NULL-->
+    <!--</select>-->
+
+    <select id="getAll" resultType="com.funcas.pboot.module.upms.entity.Resource">
+        SELECT
+          id AS "id",
+          icon AS "icon",
+          component,
+          name AS "name",
+          permission AS "permission",
+          remark AS "remark",
+          sort AS "sort",
+          type AS "type",
+          value AS "value",
+          fk_parent_id AS "fkParentId"
+        FROM
+          tb_resource
+        <if test="ignore != null and ignore.length > 0">
+            WHERE id NOT IN
+            <foreach collection="ignore" item="id" index="index" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getUserResources" resultType="com.funcas.pboot.module.upms.entity.Resource">
+        SELECT
+          r.id AS "id",
+          r.icon AS "icon",
+          r.name AS "name",
+          r.component,
+          r.permission AS "permission",
+          r.remark AS "remark",
+          r.sort AS "sort",
+          r.type AS "type",
+          r.value AS "value",
+          r.fk_parent_id AS "fkParentId"
+        FROM
+          tb_resource r
+        LEFT JOIN
+          tb_group_resource gr ON gr.fk_resource_id = r.id
+        LEFT JOIN
+          tb_group g ON gr.fk_group_id = g.id
+        LEFT JOIN
+          tb_group_user gu ON gu.fk_group_id = g.id
+        LEFT JOIN
+          tb_user u ON gu.fk_user_id = u.id
+        WHERE
+          u.id = #{userId}
+        GROUP BY
+          r.id
+        ORDER BY
+          r.sort
+    </select>
+
+    <select id="getGroupResources" resultType="com.funcas.pboot.module.upms.entity.Resource">
+        SELECT
+          r.id AS "id",
+          r.icon AS "icon",
+          r.name AS "name",
+          r.component,
+          r.permission AS "permission",
+          r.remark AS "remark",
+          r.sort AS "sort",
+          r.type AS "type",
+          r.value AS "value",
+          r.fk_parent_id AS "fkParentId"
+        FROM
+          tb_resource r
+        LEFT JOIN
+            tb_group_resource gr ON gr.fk_resource_id = r.id
+        LEFT JOIN
+          tb_group g ON gr.fk_group_id = g.id
+        WHERE
+          g.id = #{groupId}
+    </select>
+
+    <!--<select id="isCodeUnique" resultType="boolean">-->
+        <!--SELECT-->
+          <!--count(id)-->
+        <!--FROM-->
+          <!--tb_resource-->
+        <!--WHERE-->
+          <!--code = #{code}-->
+    <!--</select>-->
+
+    <delete id="deleteGroupAssociation">
+        DELETE FROM tb_group_resource WHERE fk_resource_id = #{id}
+    </delete>
+
+    <select id="selectGroupResources" resultType="resource">
+        select tr.*,IF(tgr.fk_group_id is null,0,1) checked
+        from
+             tb_resource tr
+        left join
+             (select fk_resource_id, fk_group_id from tb_group_resource where fk_group_id = #{groupId}) tgr
+         on tr.id = tgr.fk_resource_id
+
+    </select>
+
+</mapper>

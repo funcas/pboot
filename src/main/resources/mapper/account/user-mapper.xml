@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 用户数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.UserMapper" >
+    <sql id="select_field">
+            id AS "id",
+            email AS "email",
+            nickname AS "nickname",
+            password AS "password",
+            state AS "state",
+            sex,
+            phone,
+            birthday,
+            avatar,
+            address,
+            username AS "username", 
+            org_id orgId,
+            ctime
+    </sql>
+
+    <resultMap id="userGroupMap" type="com.funcas.pboot.module.upms.entity.User">
+        <result property="id" column="id" />
+        <result property="email" column="email" />
+        <result property="state" column="state" />
+        <result property="sex" column="sex" />
+        <result property="phone" column="phone" />
+        <result property="birthday" column="birthday" />
+        <result property="avatar" column="avatar" />
+        <result property="address" column="address" />
+        <result property="username" column="username" />
+        <result property="nickname" column="nickname" />
+        <collection property="groups" ofType="java.lang.Long" column="id"
+                    select="com.funcas.pboot.module.upms.mapper.GroupMapper.getUserGroupListByUserId">
+            <!--<id property="id" column="group_id" />-->
+            <!--<result property="name" column="name" />-->
+        </collection>
+    </resultMap>
+    <select id="getByUsername" resultType="user">
+        SELECT
+          <include refid="select_field" />
+        FROM
+            tb_user
+        WHERE
+            username = #{username}
+    </select>
+
+    <select id="findUsersByNickname" resultType="user">
+        <bind name="nickname" value='nickname + "%"'/>
+        select id, nickname from tb_user
+          where nickname LIKE #{nickname}
+    </select>
+
+    <select id="find" resultMap="userGroupMap">
+        SELECT
+            <include refid="select_field" />
+        from tb_user
+        <where>
+            <if test="filter.username != null and filter.username != ''">
+                AND username = #{filter.username}
+            </if>
+            <if test="filter.phone != null and filter.phone != ''">
+                <bind name="phone" value='"%" + filter.phone + "%" '/>
+                AND phone like #{phone}
+            </if>
+            <if test="filter.nickname != null and filter.nickname != ''">
+                <bind name="nickname" value='"%" + filter.nickname + "%" '/>
+                AND nickname LIKE #{nickname}
+            </if>
+
+            <if test="filter.state != null">
+                AND state = #{filter.state}
+            </if>
+
+        </where>
+
+        ORDER BY id DESC
+
+    </select>
+    <select id="findUserByOrgId" resultType="user">
+        SELECT
+          <include refid="select_field" />
+        FROM tb_user WHERE org_id = #{orgId}
+    </select>
+
+    <delete id="deleteGroupAssociation">
+        DELETE FROM tb_group_user WHERE fk_user_id = #{id}
+    </delete>
+
+    <update id="updatePassword">
+        UPDATE
+          tb_user
+        SET
+          password = #{password}
+        WHERE
+          id = #{id}
+    </update>
+
+    <insert id="insertGroupAssociation">
+        INSERT INTO
+          tb_group_user(fk_user_id,fk_group_id)
+        VALUES
+        <foreach collection="groups" item="group" index="index" separator="," >
+            (#{id}, #{group.id})
+        </foreach>
+    </insert>
+
+    <select id="getUserPerms" resultType="string">
+        SELECT
+            t2.permission
+        FROM
+            tb_group_user t4,
+            tb_resource t2,
+            tb_group_resource t1
+        WHERE
+            t4.fk_user_id = '5' AND
+            t4.fk_group_id = t1.fk_group_id AND
+            t2.id = t1.fk_resource_id
+	    AND t2.fk_parent_id IS NOT NULL
+    </select>
+</mapper>

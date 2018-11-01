@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.funcas.pboot.module.upms.mapper.OperatingRecordMapper" >
+
+
+    <select id="findRecordPaged" resultType="operatingRecord">
+        SELECT t.* from tb_operating_record t, tb_user tu WHERE t.fk_user_id = tu.id
+    </select>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 组数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.GroupMapper" >
+
+    <select id="getUserGroups" resultType="com.funcas.pboot.module.upms.entity.Group">
+        SELECT
+          g.id as "id",
+          g.name as "name",
+          g.remark as "remark",
+          g.org_id as orgId,
+          g.data_scope as dataScope
+        FROM
+          tb_group g
+        LEFT JOIN
+          tb_group_user gu ON g.id = gu.fk_group_id
+        LEFT JOIN
+          tb_user u ON u.id = gu.fk_user_id
+        WHERE
+          u.id = #{userId}
+    </select>
+
+    <select id="getUserGroupListByUserId" parameterType="long" resultType="group">
+        select fk_group_id id from tb_group_user t where fk_user_id = #{id}
+    </select>
+
+    <select id="find" resultType="com.funcas.pboot.module.upms.entity.Group">
+        SELECT
+          id as "id",
+          name as "name",
+          remark as "remark",
+          org_id as orgId,
+          data_scope as dataScope
+        FROM
+          tb_group
+        <where>
+            <if test="filter.name != null and filter.name != ''">
+                <bind name="name" value=" '%' + filter.name + '%' " />
+                name LIKE #{name}
+            </if>
+        </where>
+        ORDER BY id DESC
+        <!--<if test="filter.limit.first != null and filter.limit.last != null">-->
+            <!--LIMIT #{filter.limit.last} offset #{filter.limit.first}-->
+        <!--</if>-->
+    </select>
+
+    <select id="isNameUnique" resultType="boolean">
+        SELECT
+          count(id)
+        FROM
+          tb_group
+        WHERE
+          name = #{name}
+    </select>
+
+    <delete id="deleteUserAssociation">
+        DELETE FROM tb_group_user WHERE fk_group_id = #{id}
+    </delete>
+
+    <delete id="deleteResourceAssociation">
+        DELETE FROM tb_group_resource WHERE fk_group_id = #{id}
+    </delete>
+
+    <insert id="insertUserAssociation">
+        INSERT INTO
+          tb_group_user(fk_user_id,fk_group_id)
+        VALUES
+        <foreach collection="userIds" item="userId" index="index" separator="," >
+            (#{userId}, #{id})
+        </foreach>
+    </insert>
+
+    <insert id="insertResourceAssociation">
+        INSERT INTO
+          tb_group_resource(fk_resource_id,fk_group_id)
+        VALUES
+        <foreach collection="resourceIds" item="resourceId" index="index" separator="," >
+            (#{resourceId}, #{id})
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 组数据访问映射 -->
+<mapper namespace="com.funcas.pboot.module.upms.mapper.UnitMapper" >
+
+    <select id="findOrgByParentId" resultType="unit">
+        SELECT
+            id,
+            parent_id parentId,
+            org_code orgCode,
+            name,
+            sort,
+            area_id areaId,
+            code,
+            type,
+            grade,
+            address,
+            zip_code zipCode,
+            master,
+            phone,
+            fax,
+            email,
+            state,
+            remarks
+        FROM
+            tb_organization
+        where parent_id = #{parentId}
+    </select>
+
+    <select id="findTwoLevelOrgByParentId" resultType="unit">
+        SELECT
+            t.id,
+            t.parent_id parentId,
+            t.org_code orgCode,
+            t.name,
+            t.sort,
+            t.area_id areaId,
+            t.code,
+            t.type,
+            t.grade,
+            t.address,
+            t.zip_code zipCode,
+            t.master,
+            t.phone,
+            t.fax,
+            t.email,
+            t.state,
+            t.remarks
+        FROM
+            tb_organization t
+        where EXISTS (select 1 from tb_organization t1 where t1.parent_id = 0 and t1.id = t.parent_id)
+              or t.parent_id = 0
+    </select>
+
+</mapper>

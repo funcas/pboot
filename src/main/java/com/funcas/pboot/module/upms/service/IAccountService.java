@@ -1,17 +1,14 @@
 package com.funcas.pboot.module.upms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.enumeration.entity.ResourceType;
 import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.entity.User;
-import com.funcas.pboot.module.upms.entity.dto.ResourceDTO;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author funcas
@@ -21,8 +18,6 @@ import java.util.Set;
 public interface IAccountService {
 
     public User getUser(Long id);
-
-    public void saveUser(User entity, List<Long> groupIds);
 
     public void saveUser(User entity);
 
@@ -106,24 +101,6 @@ public interface IAccountService {
     public Resource getResource(Long id);
 
     /**
-     * 获取资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    public Resource getResource(String code) ;
-
-    /**
-     * 获取父类资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    public Resource getParentResource(String code) ;
-
-    /**
      * 获取所有资源
      *
      * @return 资源实体 Map 集合
@@ -147,14 +124,6 @@ public interface IAccountService {
      */
     public List<Resource> getGroupResources(Long groupId);
 
-    /**
-     * 判断资源名称是否唯一
-     *
-     * @param code 资源代码
-     *
-     * @return ture 表示唯一，否则 false。
-     */
-    public boolean isResourceCodeUnique(String code);
     /**
      * 删除资源
      *

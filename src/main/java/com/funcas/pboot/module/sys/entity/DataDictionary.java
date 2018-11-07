@@ -1,7 +1,8 @@
-package com.funcas.pboot.module.upms.entity;
+package com.funcas.pboot.module.sys.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
@@ -28,5 +29,8 @@ public class DataDictionary extends BaseEntity<Long> {
     private String value;
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long fkCategoryId;
+
+    @TableField(exist = false)
+    private String categoryName;
 
 }

@@ -1,7 +1,10 @@
-package com.funcas.pboot.module.upms.entity;
+package com.funcas.pboot.module.sys.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.funcas.pboot.module.sys.enumeration.OperatingState;
+import com.funcas.pboot.module.util.VariableUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,31 +16,27 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("tb_operating_record")
 public class OperatingRecord {
 	
 	private static final long serialVersionUID = 1L;
 	@JSONField(serializeUsing = ToStringSerializer.class)
 	private Long id;
-	//操作人名称
 	private String username;
-	//操作人主键id
 	private String fkUserId;
-	//开始操作时间
+	@JSONField(format="yyyy-MM-dd HH:mm:ss SSS")
 	private Date startDate;
-	//操作结束时间
+	@JSONField(format="yyyy-MM-dd HH:mm:ss SSS")
 	private Date endDate;
-	//操作目标
 	private String operatingTarget;
-	//ip地址
 	private String ip;
-	//操作的java方法
 	private String method;
-	//执行状态,1代表成，2代表执行时出现异常
 	private Integer state;
-	//模块名称
 	private String module;
-	//功能名称
-	private String function;
-	//描述
+	private String func;
 	private String remark;
+
+	public String getStateName(){
+		return VariableUtils.getName(OperatingState.class, this.state);
+	}
 }

@@ -8,7 +8,7 @@ import com.funcas.pboot.common.enumeration.entity.ResourceType;
 import com.funcas.pboot.common.exception.ServiceException;
 import com.funcas.pboot.common.util.CollectionUtils;
 import com.funcas.pboot.common.util.IdWorker;
-import com.funcas.pboot.module.upms.entity.DataDictionary;
+import com.funcas.pboot.module.sys.entity.DataDictionary;
 import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.entity.User;
@@ -61,30 +61,9 @@ public class AccountServiceImpl implements IAccountService {
     }
 
 
-    /**
-     * 保存用户
-     *
-     * @param entity   用户实体 Map
-     * @param groupIds 关联的组主键 ID 集合
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void saveUser(User entity, List<Long> groupIds) {
-        if (entity.getId() != null) {
-            updateUser(entity);
-        } else {
-            entity.setId(IdWorker.getId());
-            insertUser(entity);
-        }
-    }
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveUser(User entity) {
-//        List<Long> groupIds = Lists.newArrayList();
-//        if(entity.getGroup() != null) {
-//            entity.getGroup().forEach(group -> groupIds.add(group.getId()));
-//        }
 
         if (entity.getId() != null) {
             updateUser(entity);
@@ -397,29 +376,6 @@ public class AccountServiceImpl implements IAccountService {
         return resourceMapper.selectById(id);
     }
 
-    /**
-     * 获取资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    @Override
-    public Resource getResource(String code) {
-        return resourceMapper.getByCode(code);
-    }
-
-    /**
-     * 获取父类资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    @Override
-    public Resource getParentResource(String code) {
-        return resourceMapper.getParentByCode(code);
-    }
 
     /**
      * 获取所有资源
@@ -455,17 +411,6 @@ public class AccountServiceImpl implements IAccountService {
         return resourceMapper.getGroupResources(groupId);
     }
 
-    /**
-     * 判断资源名称是否唯一
-     *
-     * @param code 资源代码
-     *
-     * @return ture 表示唯一，否则 false。
-     */
-    @Override
-    public boolean isResourceCodeUnique(String code) {
-        return !resourceMapper.isCodeUnique(code);
-    }
 
     /**
      * 删除资源

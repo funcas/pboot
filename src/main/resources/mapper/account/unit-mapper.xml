@@ -25,7 +25,7 @@
             state,
             remarks
         FROM
-            tb_organization
+            tb_unit
         where parent_id = #{parentId}
     </select>
 
@@ -49,9 +49,15 @@
             t.state,
             t.remarks
         FROM
-            tb_organization t
-        where EXISTS (select 1 from tb_organization t1 where t1.parent_id = 0 and t1.id = t.parent_id)
+            tb_unit t
+        where EXISTS (select 1 from tb_unit t1 where t1.parent_id = 0 and t1.id = t.parent_id)
               or t.parent_id = 0
+    </select>
+
+    <select id="genOrgCode" resultType="string">
+        select LPAD(x.orgCode + 1, length(x.orgCode), '0')
+          from
+        (select max(org_code) orgCode from tb_unit where parent_id = #{parentId}) x
     </select>
 
 </mapper>

@@ -1,14 +1,15 @@
-package com.funcas.pboot.module.upms.service.impl;
+package com.funcas.pboot.module.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.exception.ServiceException;
-import com.funcas.pboot.module.upms.entity.DataDictionary;
-import com.funcas.pboot.module.upms.entity.DictionaryCategory;
-import com.funcas.pboot.module.upms.mapper.DataDictionaryMapper;
-import com.funcas.pboot.module.upms.mapper.DictionaryCategoryMapper;
-import com.funcas.pboot.module.upms.service.ISystemVariableService;
+import com.funcas.pboot.module.sys.entity.DataDictionary;
+import com.funcas.pboot.module.sys.entity.DictionaryCategory;
+import com.funcas.pboot.module.sys.mapper.DataDictionaryMapper;
+import com.funcas.pboot.module.sys.mapper.DictionaryCategoryMapper;
+import com.funcas.pboot.module.sys.service.ISystemVariableService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -48,7 +49,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
      */
     @Override
     public DataDictionary getDataDictionary(Long id) {
-        return dataDictionaryMapper.get(id);
+        return dataDictionaryMapper.selectById(id);
     }
 
     /**
@@ -61,7 +62,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
     @Override
     @Cacheable(value = "dataDictionaryCache", key = "#code")
     public DataDictionary getDataDictionary(String code) {
-        return dataDictionaryMapper.getByCode(code);
+        return dataDictionaryMapper.selectOne(new QueryWrapper<DataDictionary>().eq("code", code));
     }
 
     /**
@@ -74,7 +75,8 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
     @Override
     @Cacheable(value = "dataDictionaryCache", key = "#code")
     public List<DataDictionary> getDataDictionaries(String code) {
-        return dataDictionaryMapper.getByCategoryCode(code);
+        return dataDictionaryMapper
+                .selectList(new QueryWrapper<DataDictionary>().eq("fk_category_id", code));
     }
 
     /**
@@ -91,7 +93,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
         }
 
         for (Long id : ids) {
-            dataDictionaryMapper.delete(id);
+            dataDictionaryMapper.deleteById(id);
         }
     }
 
@@ -104,7 +106,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
     @CacheEvict(value = "dataDictionaryCache", allEntries = true)
     public void saveDataDictionary(DataDictionary entity) {
         if (entity.getId() != null) {
-            dataDictionaryMapper.update(entity);
+            dataDictionaryMapper.updateById(entity);
         } else {
             String code = entity.getCode();
 
@@ -141,7 +143,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
      */
     @Override
     public List<DataDictionary> findDataDictionaries(Map<String, Object> filter) {
-        return dataDictionaryMapper.find(filter);
+        return dataDictionaryMapper.selectByMap(filter);
     }
 
     /**
@@ -152,13 +154,10 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
      *
      * @return 数据字典实体 Map 的分页对象
      */
-//    @Override
-//    public Page<DataDictionary> findDataDictionaries(PageRequest pageRequest, Map<String, Object> filter) {
-//        long total = dataDictionaryMapper.count(filter);
-//        filter.putAll(pageRequest.getMap());
-//        List<DataDictionary> content = findDataDictionaries(filter);
-//        return new Page<>(pageRequest, content, total);
-//    }
+    @Override
+    public IPage<DataDictionary> findDataDictionaries(PageRequest pageRequest, Map<String, Object> filter) {
+        return dataDictionaryMapper.find(new Page<>(pageRequest.getPageNumber(), pageRequest.getPageSize()), filter);
+    }
 
     //----------------------------------- 字典类别管理 ----------------------------------------//
 
@@ -171,7 +170,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
      */
     @Override
     public DictionaryCategory getDictionaryCategory(Long id) {
-        return dictionaryCategoryMapper.get(id);
+        return dictionaryCategoryMapper.selectById(id);
     }
 
     /**
@@ -194,7 +193,7 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
     @Override
     public void saveDictionaryCategory(DictionaryCategory entity) {
         if (entity.getId() != null) {
-            dictionaryCategoryMapper.update(entity);
+            dictionaryCategoryMapper.updateById(entity);
         } else {
             String code = entity.getCode();
             if (!isDictionaryCategoryCodeUnique(code)) {
@@ -231,22 +230,10 @@ public class SystemVariableServiceImpl implements ISystemVariableService {
 
         for (Long id : ids) {
             dictionaryCategoryMapper.deleteDataDictionaryAssociation(id);
-            dictionaryCategoryMapper.delete(id);
+            dictionaryCategoryMapper.deleteById(id);
         }
     }
 
-
-//    /**
-//     * 查询字典类别
-//     *
-//     * @param filter 查询条件
-//     *
-//     * @return 字典类别实体 Map 集合
-//     */
-//    @Override
-//    public List<DictionaryCategory> findDictionaryCategories(Map<String, Object> filter) {
-//        return dictionaryCategoryMapper.find(filter);
-//    }
 
     /**
      * 查询字典类别

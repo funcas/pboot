@@ -1,9 +1,9 @@
-package com.funcas.pboot.module.upms.service;
+package com.funcas.pboot.module.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.PageRequest;
-import com.funcas.pboot.module.upms.entity.DataDictionary;
-import com.funcas.pboot.module.upms.entity.DictionaryCategory;
+import com.funcas.pboot.module.sys.entity.DataDictionary;
+import com.funcas.pboot.module.sys.entity.DictionaryCategory;
 
 import java.util.List;
 import java.util.Map;
@@ -82,7 +82,7 @@ public interface ISystemVariableService {
      *
      * @return 数据字典实体 Map 的分页对象
      */
-//    public Page<DataDictionary> findDataDictionaries(PageRequest pageRequest, Map<String, Object> filter);
+    public IPage<DataDictionary> findDataDictionaries(PageRequest pageRequest, Map<String, Object> filter);
 
     //----------------------------------- 字典类别管理 ----------------------------------------//
 

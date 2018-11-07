@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,9 +36,13 @@ public class UnitServiceImpl implements IUnitService {
     @CacheEvict(value = "unitCache", key="#entity.id")
     public void saveUnit(Unit entity) {
         if(entity.getId() != null){
+            entity.setMtime(new Date());
             unitMapper.updateById(entity);
         }else{
             entity.setId(IdWorker.getId());
+            entity.setCtime(new Date());
+            //todo 添加创建人
+            entity.setOrgCode(this.generateOrgCode(entity.getParentId()));
             unitMapper.insert(entity);
         }
 
@@ -106,6 +111,20 @@ public class UnitServiceImpl implements IUnitService {
                 parent.addChildren(entity);
             }
         }
+    }
+
+    /**
+     * 生成orgCode
+     * @param parentId 父级id
+     * @return
+     */
+    private String generateOrgCode(Long parentId){
+        String orgCode = unitMapper.genOrgCode(parentId);
+        if(null == orgCode){
+            Unit unit = unitMapper.selectById(parentId);
+            return unit.getOrgCode() + "001";
+        }
+        return orgCode;
     }
 }
 

@@ -10,11 +10,36 @@ spring:
     port: 6379
   application:
     name: spring-cloud-upms-server
+  quartz:
+    job-store-type: jdbc
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/platform?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: P@ssw0rd
+    druid:
+      url: jdbc:mysql://localhost:3306/platform?useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: P@ssw0rd
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: select 1
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      filters: stat
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+#        deny:
+#        allow:
+#        login-username: admin
+#        login-password: admin
+
   http:
     converters:
       preferred-json-mapper: fastjson

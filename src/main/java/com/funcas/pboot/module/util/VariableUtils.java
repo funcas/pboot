@@ -2,8 +2,8 @@ package com.funcas.pboot.module.util;
 
 import com.funcas.pboot.common.enumeration.FieldType;
 import com.funcas.pboot.common.enumeration.ValueEnum;
-import com.funcas.pboot.module.upms.entity.DataDictionary;
-import com.funcas.pboot.module.upms.service.ISystemVariableService;
+import com.funcas.pboot.module.sys.entity.DataDictionary;
+import com.funcas.pboot.module.sys.service.ISystemVariableService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -32,6 +32,8 @@ public class VariableUtils {
      * 默认字典值的键名称
      */
     public static final String DEFAULT_KEY_NAME = "value";
+
+    static public String DEFAULT_DICTIONARY_VALUE = "无";
 
     /**
      * 系统变量业务逻辑
@@ -111,6 +113,38 @@ public class VariableUtils {
 
     public static DataDictionary getDataDictionary(String code) {
         return systemVariableService.getDataDictionary(code);
+    }
+
+    /**
+     * 通过字典枚举获取字典名称
+     *
+     * @param enumClass 字典枚举class
+     * @param value 值
+     *
+     * @return String
+     */
+    public static String getName(Class<? extends Enum<? extends ValueEnum<?>>> enumClass,Object value) {
+
+        if (value == null || enumClass == null) {
+            return DEFAULT_DICTIONARY_VALUE;
+        }
+
+        if (value instanceof String && StringUtils.isEmpty(value.toString())) {
+            return DEFAULT_DICTIONARY_VALUE;
+        }
+
+        Enum<?>[] values = enumClass.getEnumConstants();
+
+        for (Enum<?> o : values) {
+            ValueEnum<?> ve = (ValueEnum<?>) o;
+
+            if (StringUtils.equals(ve.getValue().toString(), value.toString())) {
+                return ve.getName();
+            }
+
+        }
+
+        return DEFAULT_DICTIONARY_VALUE;
     }
 
     /**

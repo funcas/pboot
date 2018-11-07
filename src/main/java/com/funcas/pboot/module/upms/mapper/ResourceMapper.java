@@ -2,7 +2,6 @@ package com.funcas.pboot.module.upms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.funcas.pboot.module.upms.entity.Resource;
-import com.funcas.pboot.module.upms.entity.dto.ResourceDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -59,33 +58,6 @@ public interface ResourceMapper extends BaseMapper<Resource> {
      * @param id 资源主键 ID
      */
     void deleteGroupAssociation(@Param("id") Long id);
-
-    /**
-     * 判断名称是否唯一
-     *
-     * @param code 代码
-     *
-     * @return true 表示唯一，否则 false
-     */
-    boolean isCodeUnique(@Param("code") String code);
-
-    /**
-     * 获取父类资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    Resource getParentByCode(@Param("code") String code);
-
-    /**
-     * 获取资源
-     *
-     * @param code 资源代码
-     *
-     * @return 资源实体 Map
-     */
-    Resource getByCode(@Param("code") String code);
 
     List<Resource> selectGroupResources(@Param("groupId") Long groupId);
 }

@@ -35,7 +35,7 @@
 	<logger name="dao" level="debug" additivity="false">
 		<appender-ref ref="console" />
 	</logger>
-	<!--<logger name="org.apache.shiro" level="debug" additivity="false">-->
+	<!--<logger name="org.quartz" level="debug" additivity="false">-->
 		<!--<appender-ref ref="console"/>-->
 	<!--</logger>-->
 

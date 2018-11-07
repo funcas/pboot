@@ -1,5 +1,6 @@
 package com.funcas.pboot.common.enumeration;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,27 +13,31 @@ public enum FieldType implements ValueEnum<Class<?>> {
     /**
      * String 类型
      */
-    STRING("string", String.class),
+    STRING("STRING", String.class),
     /**
      * Integer 类型
      */
-    INTEGER("integer", Integer.class),
+    INTEGER("INTEGER", Integer.class),
     /**
      * Long 类型
      */
-    LONG("long", Long.class),
+    LONG("LONG", Long.class),
     /**
      * Double 类型
      */
-    DOUBLE("double", Double.class),
+    DOUBLE("DOUBLE", Double.class),
     /**
      * Date 类型
      */
-    DATE("date", Date.class),
+    DATE("DATE", Date.class),
     /**
      * Boolean 类型
      */
-    BOOLEAN("boolean", Boolean.class);
+    BOOLEAN("BOOLEAN", Boolean.class),
+    /**
+     * BigDecimal 类型
+     */
+    DECIMAL("DECIMAL",BigDecimal .class);
 
     // 名称
     private String name;

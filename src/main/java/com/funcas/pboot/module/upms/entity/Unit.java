@@ -36,6 +36,7 @@ public class Unit extends BaseEntity<Long> {
     private Long creatorId;
     private Date ctime;
     private Date mtime;
+    private String code;
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long modifierId;
     @JSONField(serialize = false)

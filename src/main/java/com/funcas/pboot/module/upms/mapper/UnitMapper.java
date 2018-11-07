@@ -19,4 +19,6 @@ public interface UnitMapper extends BaseMapper<Unit> {
 
     List<Unit> findTwoLevelOrgByParentId(@Param("rootId") Long rootId);
 
+    String genOrgCode(@Param("parentId") Long parentId);
+
 }

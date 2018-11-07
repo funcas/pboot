@@ -1,9 +1,11 @@
-package com.funcas.pboot.module.upms.entity;
+package com.funcas.pboot.module.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author funcas
@@ -15,6 +17,7 @@ import lombok.EqualsAndHashCode;
 @TableName("tb_dictionary_category")
 public class DictionaryCategory extends BaseEntity<Long> {
 
+    @NotNull
     private String code;
     private String name;
     private String remark;

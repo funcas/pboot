@@ -1,5 +1,6 @@
 package com.funcas.pboot.module.upms.service.impl;
 
+import com.funcas.pboot.common.enumeration.entity.State;
 import com.funcas.pboot.common.exception.ServiceException;
 import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.funcas.pboot.module.upms.entity.Resource;
@@ -47,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         // 可用性 :true:可用 false:不可用
-        boolean enabled = userVO.getState() == 1;
+        boolean enabled = State.ENABLE.getValue().equals(userVO.getState());
 
         org.springframework.security.core.userdetails.User user =
                 new org.springframework.security.core.userdetails.User(userVO.getUsername(), userVO.getPassword() ,enabled,true,

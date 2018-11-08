@@ -4,12 +4,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.base.BaseController;
+import com.funcas.pboot.common.util.FastJsonUtil;
+import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.funcas.pboot.module.upms.entity.Group;
+import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.entity.User;
 import com.funcas.pboot.module.upms.service.IAccountService;
+import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +30,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys")
+@Slf4j
 public class UserController extends BaseController {
 
     private final IAccountService accountService;
@@ -32,11 +41,18 @@ public class UserController extends BaseController {
     }
 
 
-    @PreAuthorize("hasAuthority('user:list')")
     @GetMapping("/userinfo")
-    public ApiResult getUserInfo(Long uid){
-        User user = accountService.getUserByUsername("admin");
-
+    public ApiResult getUserInfo(Authentication authentication){
+        Long uid = ((BaseUserDetail)authentication.getPrincipal()).getBaseUser().getId();
+        User user = accountService.getUser(uid);
+        List<Resource> resourceList = accountService.getUserResources(uid);
+        List<String> perms = Lists.newArrayList();
+        for(Resource resource : resourceList){
+            if(StringUtils.isNotEmpty(resource.getPermission())){
+                perms.add(resource.getPermission());
+            }
+        }
+        user.setPerms(perms);
         return success(user);
     }
 

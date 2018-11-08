@@ -16,10 +16,10 @@ import java.util.List;
  * @version 1.0
  * @date 2018年10月12日
  */
-@Configuration
+//@Configuration
 public class FastJson {
 
-    @Bean
+//    @Bean
     public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
 

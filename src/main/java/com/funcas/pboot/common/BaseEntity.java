@@ -1,8 +1,8 @@
 package com.funcas.pboot.common;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ public abstract class BaseEntity<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId
-    @JSONField(serializeUsing = ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     protected T id;
 
     public T getId() {

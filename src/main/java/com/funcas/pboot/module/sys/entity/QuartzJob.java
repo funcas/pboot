@@ -1,8 +1,8 @@
 package com.funcas.pboot.module.sys.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
 import com.funcas.pboot.module.sys.enumeration.JobState;
 import com.funcas.pboot.module.util.VariableUtils;
@@ -27,7 +27,7 @@ public class QuartzJob extends BaseEntity<Long> {
     private String parameter;
     private Integer state;
     private Date ctime;
-    @JSONField(serializeUsing = ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long created;
     private Integer delFlag;
 

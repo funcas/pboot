@@ -4,6 +4,7 @@ import com.funcas.pboot.common.enumeration.FieldType;
 import com.funcas.pboot.common.enumeration.ValueEnum;
 import com.funcas.pboot.module.sys.entity.DataDictionary;
 import com.funcas.pboot.module.sys.service.ISystemVariableService;
+import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -11,7 +12,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -211,5 +216,21 @@ public class VariableUtils {
         return (T) cast(value, type);
     }
 
+
+    public static BaseUserDetail getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Assert.notNull(authentication, "未认证");
+        return (BaseUserDetail) authentication.getPrincipal();
+    }
+
+    /**
+     * 获取Accesstoken
+     * @return
+     */
+    public static String getAccessToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Assert.notNull(authentication, "未认证");
+        return ((OAuth2AuthenticationDetails)authentication.getDetails()).getTokenValue();
+    }
 
 }

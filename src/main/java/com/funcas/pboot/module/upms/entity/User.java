@@ -1,10 +1,11 @@
 package com.funcas.pboot.module.upms.entity;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ public class User extends BaseEntity<Long> {
     private static final long serialVersionUID = -2269302169894751895L;
 
     private String email;
-    @JSONField(serialize = false)
+    @JsonIgnore
     private String password;
     private String nickname;
     private Integer state;
@@ -34,10 +35,13 @@ public class User extends BaseEntity<Long> {
     private int sex;
     private String birthday;
     private String address;
-    @JSONField(serializeUsing = ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long orgId;
     @TableField(exist = false)
     private List<Group> groups;
     private transient Unit organization;
+
+    @TableField(exist = false)
+    private List<String> perms;
 
 }

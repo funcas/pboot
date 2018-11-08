@@ -1,8 +1,9 @@
 package com.funcas.pboot.module.sys.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.module.sys.enumeration.OperatingState;
 import com.funcas.pboot.module.util.VariableUtils;
 import lombok.Data;
@@ -20,13 +21,13 @@ import java.util.Date;
 public class OperatingRecord {
 	
 	private static final long serialVersionUID = 1L;
-	@JSONField(serializeUsing = ToStringSerializer.class)
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	private String username;
 	private String fkUserId;
-	@JSONField(format="yyyy-MM-dd HH:mm:ss SSS")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss SSS")
 	private Date startDate;
-	@JSONField(format="yyyy-MM-dd HH:mm:ss SSS")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss SSS")
 	private Date endDate;
 	private String operatingTarget;
 	private String ip;

@@ -20,6 +20,7 @@ import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -395,6 +396,7 @@ public class AccountServiceImpl implements IAccountService {
      * @return 资源实体 Map 集合
      */
     @Override
+    @Cacheable(value = "userResourceCache", key = "#userId")
     public List<Resource> getUserResources(Long userId) {
         return resourceMapper.getUserResources(userId);
     }

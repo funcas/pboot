@@ -3,6 +3,7 @@ package com.funcas.pboot.module.upms.entity;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
@@ -36,6 +37,7 @@ public class Resource extends BaseEntity<Long> {
     @TableField(exist = false)
     private List<Resource> children = Lists.newArrayList();
 
+    @JsonIgnore
     private transient Resource parent;
     @TableField(exist = false)
     private Boolean checked;

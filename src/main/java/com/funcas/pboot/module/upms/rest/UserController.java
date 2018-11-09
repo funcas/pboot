@@ -40,7 +40,6 @@ public class UserController extends BaseController {
         this.accountService = accountService;
     }
 
-
     @GetMapping("/userinfo")
     public ApiResult getUserInfo(Authentication authentication){
         Long uid = ((BaseUserDetail)authentication.getPrincipal()).getBaseUser().getId();

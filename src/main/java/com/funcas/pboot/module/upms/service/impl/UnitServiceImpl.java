@@ -78,6 +78,20 @@ public class UnitServiceImpl implements IUnitService {
         unitMapper.updateById(unit);
     }
 
+    @Override
+    public Unit selectOne(Long id) {
+        return unitMapper.selectById(id);
+    }
+
+    /**
+     * 按用户组查询关联的组织
+     * @return
+     */
+    @Override
+    public List<Unit> getGroupUnit(Long id) {
+        return this.mergeUnit(unitMapper.selectGroupUnit(id));
+    }
+
     private List<Unit> mergeUnit(List<Unit> units) {
         List<Unit> result = Lists.newArrayList();
 

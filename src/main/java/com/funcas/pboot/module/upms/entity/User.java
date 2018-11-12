@@ -36,10 +36,11 @@ public class User extends BaseEntity<Long> {
     private String birthday;
     private String address;
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long orgId;
+    private Long unitId;
     @TableField(exist = false)
     private List<Group> groups;
-    private transient Unit organization;
+    @TableField(exist = false)
+    private Unit organization;
 
     @TableField(exist = false)
     private List<String> perms;

@@ -45,6 +45,9 @@ public class Unit extends BaseEntity<Long> {
     @TableField(exist = false)
     private List<Unit> children = Lists.newArrayList();
 
+    @TableField(exist = false)
+    private Boolean checked;
+
     public String getTitle(){
         return this.name;
     }

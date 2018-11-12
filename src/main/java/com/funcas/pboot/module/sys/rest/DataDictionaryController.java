@@ -8,6 +8,7 @@ import com.funcas.pboot.module.sys.service.ISystemVariableService;
 import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -29,6 +30,7 @@ public class DataDictionaryController extends BaseController {
     }
 
     @GetMapping("/dicts")
+    @PreAuthorize("hasAuthority('data-dictionary:list')")
     public Object getDicts(PageRequest pageRequest, Map<String,Object> filter){
         return success(systemVariableService.findDataDictionaries(pageRequest, filter));
     }
@@ -39,12 +41,14 @@ public class DataDictionaryController extends BaseController {
     }
 
     @PostMapping("/dict")
+    @PreAuthorize("hasAuthority('data-dictionary:save')")
     public Object saveDict(@RequestBody DataDictionary entity){
         systemVariableService.saveDataDictionary(entity);
         return success(entity);
     }
 
     @DeleteMapping("/dict/{id}")
+    @PreAuthorize("hasAuthority('data-dictionary:delete')")
     public Object delDict(@PathVariable("id") Long id){
         systemVariableService.deleteDataDictionaries(Lists.newArrayList(id));
         return success(id);

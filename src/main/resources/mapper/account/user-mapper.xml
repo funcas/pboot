@@ -16,7 +16,7 @@
             avatar,
             address,
             username AS "username", 
-            org_id orgId,
+            unit_id unitId,
             ctime
     </sql>
 
@@ -72,7 +72,9 @@
             <if test="filter.state != null">
                 AND state = #{filter.state}
             </if>
-
+            <if test="filter.ds != null and filter.ds != ''">
+                AND ${filter.ds}
+            </if>
         </where>
 
         ORDER BY id DESC

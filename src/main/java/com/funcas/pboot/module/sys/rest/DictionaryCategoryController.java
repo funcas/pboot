@@ -7,6 +7,7 @@ import com.funcas.pboot.module.sys.entity.DictionaryCategory;
 import com.funcas.pboot.module.sys.service.ISystemVariableService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -34,6 +35,7 @@ public class DictionaryCategoryController extends BaseController {
      * @return
      */
     @GetMapping("/dict-categories")
+    @PreAuthorize("hasAuthority('dictionary-category:list')")
     public ApiResult getDictCategorys(PageRequest pageRequest, Map<String,Object> filter){
         return success(systemVariableService.findDictionaryCategories(pageRequest, filter));
     }
@@ -44,6 +46,7 @@ public class DictionaryCategoryController extends BaseController {
      * @return
      */
     @PostMapping("/dict-category")
+    @PreAuthorize("hasAuthority('dictionary-category:save')")
     public ApiResult saveDictCategory(@RequestBody DictionaryCategory entity){
         systemVariableService.saveDictionaryCategory(entity);
         return success(entity);
@@ -55,6 +58,7 @@ public class DictionaryCategoryController extends BaseController {
      * @return
      */
     @DeleteMapping("/dict-category/{id}")
+    @PreAuthorize("hasAuthority('dictionary-category:delete')")
     public ApiResult deleteCategoryById(@PathVariable("id") Long id){
         systemVariableService.deleteDictionaryCategories(Lists.newArrayList(id));
         return success(id);

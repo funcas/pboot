@@ -28,5 +28,7 @@ public class Group extends BaseEntity<Long> {
     private Long orgId;
     @TableField(exist = false)
     private List<Long> resourceIds;
+    @TableField(exist = false)
+    private List<Long> unitIds;
 
 }

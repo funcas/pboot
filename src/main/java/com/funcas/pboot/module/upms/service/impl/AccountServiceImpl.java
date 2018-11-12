@@ -36,7 +36,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
-public class AccountServiceImpl implements IAccountService {
+public class AccountServiceImpl extends BaseBizService implements IAccountService {
 
     private final UserMapper userMapper;
     private final GroupMapper groupMapper;
@@ -234,6 +234,8 @@ public class AccountServiceImpl implements IAccountService {
      */
     @Override
     public IPage<User> findUsers(PageRequest pageRequest, Map<String, Object> filter) {
+        String sql = dataScopeFilter("tb_user");
+        filter.put("ds", sql);
         return userMapper.find(new Page<>(pageRequest.getPageNumber(), pageRequest.getPageSize()), filter);
     }
 
@@ -312,13 +314,17 @@ public class AccountServiceImpl implements IAccountService {
      */
     private void updateGroup(Group entity) {
         Long id = entity.getId();
+        List<Long> unitIds = entity.getUnitIds();
         List<Long> resourceIds = entity.getResourceIds();
         groupMapper.updateById(entity);
 
         groupMapper.deleteResourceAssociation(id);
+        groupMapper.deleteUnitAssociation(id);
         if (CollectionUtils.isNotEmpty(resourceIds)) {
-
             groupMapper.insertResourceAssociation(id, resourceIds);
+        }
+        if (CollectionUtils.isNotEmpty(unitIds)) {
+            groupMapper.insertUnitAssociation(id, unitIds);
         }
     }
 
@@ -330,6 +336,7 @@ public class AccountServiceImpl implements IAccountService {
     private void insertGroup(Group entity) {
         String name = entity.getName();
         List<Long> resourceIds = entity.getResourceIds();
+        List<Long> unitIds = entity.getUnitIds();
         if (!isGroupNameUnique(name)) {
             throw new ServiceException("组名称[" + name + "]已存在");
         }
@@ -339,6 +346,10 @@ public class AccountServiceImpl implements IAccountService {
 
         if (CollectionUtils.isNotEmpty(resourceIds)) {
             groupMapper.insertResourceAssociation(id, resourceIds);
+        }
+
+        if (CollectionUtils.isNotEmpty(unitIds)) {
+            groupMapper.insertUnitAssociation(id, unitIds);
         }
     }
 

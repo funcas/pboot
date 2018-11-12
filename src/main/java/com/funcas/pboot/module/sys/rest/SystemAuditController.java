@@ -5,6 +5,7 @@ import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.base.BaseController;
 import com.funcas.pboot.module.sys.service.ISystemAuditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ public class SystemAuditController extends BaseController {
     private ISystemAuditService auditService;
 
     @GetMapping("/audits")
+    @PreAuthorize("hasAuthority('audit:list')")
     public ApiResult findAuditPaged(PageRequest pageRequest, Map<String,Object> filter){
         return success(auditService.findOperatingRecordPaged(pageRequest, filter));
     }

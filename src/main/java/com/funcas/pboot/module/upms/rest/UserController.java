@@ -87,7 +87,7 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping("/user/{userId}")
-    @PreAuthorize("hasAuthority('test')")
+    @PreAuthorize("hasAuthority('user:delete')")
     public ApiResult deleteUser(@PathVariable("userId") Long userId){
         accountService.deleteUsers(Lists.newArrayList(userId));
         return success(userId);

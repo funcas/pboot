@@ -13,7 +13,6 @@ public interface IUnitService {
 
     public void saveUnit(Unit entity);
 
-
     public Unit getOrganizationById(Long id);
 
     public List<Unit> findLeaveUnit();
@@ -23,5 +22,9 @@ public interface IUnitService {
     public List<Unit> getAllUnits();
 
     public void deleteUnit(Long id);
+
+    public Unit selectOne(Long id);
+
+    public List<Unit> getGroupUnit(Long id);
 
 }

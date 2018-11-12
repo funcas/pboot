@@ -52,6 +52,19 @@ public interface GroupMapper extends BaseMapper<Group> {
     void insertResourceAssociation(@Param("id") Long id, @Param("resourceIds") List<Long> resourceIds);
 
     /**
+     * 新增与部门的关联
+     * @param id
+     * @param unitIds
+     */
+    void insertUnitAssociation(@Param("id") Long id, @Param("unitIds") List<Long> unitIds);
+
+    /**
+     * 删除与部门的关联
+     * @param id
+     */
+    void deleteUnitAssociation(@Param("id") Long id);
+
+    /**
      * 新增组与用户的关联
      *
      * @param id 组主键 ID

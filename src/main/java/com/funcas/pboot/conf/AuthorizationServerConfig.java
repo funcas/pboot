@@ -37,14 +37,18 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+    private final AuthenticationManager authenticationManager;
+    private final RedisConnectionFactory connectionFactory;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final DataSource dataSource;
+
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private RedisConnectionFactory connectionFactory;
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private DataSource dataSource;
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, RedisConnectionFactory connectionFactory, UserDetailsServiceImpl userDetailsService, DataSource dataSource) {
+        this.authenticationManager = authenticationManager;
+        this.connectionFactory = connectionFactory;
+        this.userDetailsService = userDetailsService;
+        this.dataSource = dataSource;
+    }
 
 
     @Bean

@@ -8,6 +8,7 @@ import com.funcas.pboot.module.sys.annotation.OperatingAudit;
 import com.funcas.pboot.module.sys.entity.QuartzJob;
 import com.funcas.pboot.module.sys.service.IJobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -35,37 +36,42 @@ public class JobController extends BaseController {
     }
 
     @PostMapping("/job")
-    @OperatingAudit(value = "定时任务", function = "保存定时器")
+    @PreAuthorize("hasAuthority('job:list')")
     public ApiResult saveJob(@RequestBody QuartzJob entity){
         jobService.saveJob(entity);
         return success(entity);
     }
 
     @DeleteMapping("/job/{id}")
+    @PreAuthorize("hasAuthority('job:delete')")
     public ApiResult deleteJob(@PathVariable("id") Long id){
         jobService.removeJob(id);
         return success(id);
     }
 
     @GetMapping("/job-start/{id}")
+    @PreAuthorize("hasAuthority('job:start')")
     public ApiResult startJob(@PathVariable("id") Long id){
         jobService.startJob(id);
         return success(id);
     }
 
     @GetMapping("job-pause/{id}")
+    @PreAuthorize("hasAuthority('job:pause')")
     public Object pauseJob(@PathVariable("id") Long id){
         jobService.pauseJob(id);
         return success(id);
     }
 
     @GetMapping("/job-resume/{id}")
+    @PreAuthorize("hasAuthority('job:resume')")
     public Object resumeJob(@PathVariable("id") Long id){
         jobService.resumeJob(id);
         return success(id);
     }
 
     @GetMapping("/job-stop/{id}")
+    @PreAuthorize("hasAuthority('job:stop')")
     public Object stopJob(@PathVariable("id") Long id){
         jobService.stopJob(id);
         return success(id);

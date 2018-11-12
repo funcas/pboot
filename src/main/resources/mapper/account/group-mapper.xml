@@ -82,4 +82,15 @@
         </foreach>
     </insert>
 
+    <insert id="insertUnitAssociation">
+        insert into tb_group_unit(unit_id, group_id) values
+        <foreach collection="unitIds" item="unitId" index="index" separator=",">
+            (#{unitId}, #{id})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUnitAssociation">
+        DELETE FROM tb_group_unit WHERE group_id = #{id}
+    </delete>
+
 </mapper>

@@ -5,7 +5,10 @@ import com.funcas.pboot.common.base.BaseController;
 import com.funcas.pboot.module.upms.entity.Unit;
 import com.funcas.pboot.module.upms.service.IUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author funcas
@@ -25,6 +28,7 @@ public class UnitController extends BaseController {
     }
 
     @GetMapping("/units")
+    @PreAuthorize("hasAuthority('unit:list')")
     public ApiResult getAllUnits() {
         return success(unitService.getAllUnits());
     }
@@ -35,14 +39,27 @@ public class UnitController extends BaseController {
     }
 
     @PostMapping("/unit")
+    @PreAuthorize("hasAuthority('unit:save')")
     public ApiResult saveUnit(@RequestBody Unit entity){
         unitService.saveUnit(entity);
         return success(entity);
     }
 
     @DeleteMapping("/unit/{id}")
+    @PreAuthorize("hasAuthority('unit:delete')")
     public ApiResult deleteUnit(@PathVariable("id") Long id){
         unitService.deleteUnit(id);
         return success(id);
+    }
+
+    /**
+     * 根据组id获取关联单位信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/unit/group/{id}")
+    public ApiResult getGroupUnits(@PathVariable("id") Long id) {
+        List<Unit> unitList = unitService.getGroupUnit(id);
+        return success(unitList);
     }
 }

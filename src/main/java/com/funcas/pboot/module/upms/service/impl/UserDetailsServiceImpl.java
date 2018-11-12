@@ -2,10 +2,9 @@ package com.funcas.pboot.module.upms.service.impl;
 
 import com.funcas.pboot.common.enumeration.entity.State;
 import com.funcas.pboot.common.exception.ServiceException;
-import com.funcas.pboot.module.upms.entity.BaseUserDetail;
-import com.funcas.pboot.module.upms.entity.Resource;
-import com.funcas.pboot.module.upms.entity.User;
+import com.funcas.pboot.module.upms.entity.*;
 import com.funcas.pboot.module.upms.service.IAccountService;
+import com.funcas.pboot.module.upms.service.IUnitService;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private IAccountService userService;
+    @Autowired
+    private IUnitService unitService;
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
@@ -46,7 +47,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 grantedAuthorities.add(grantedAuthority);
             }
         }
-
+        List<Group> groups = userService.getUserGroups(userVO.getId());
+        Unit unit = unitService.selectOne(userVO.getUnitId());
+        userVO.setGroups(groups);
+        userVO.setOrganization(unit);
         // 可用性 :true:可用 false:不可用
         boolean enabled = State.ENABLE.getValue().equals(userVO.getState());
 

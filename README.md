@@ -1,19 +1,24 @@
 ## pboot 前后分离基础脚手架
 
-#### TODO
-* 缓存优化
-* Activiti集成
+> 基于springboot2+mybatis+spring security oauth2的前后分离脚手架,开箱即用.
 
-#### 已完成
+### 功能包括
 * 用户管理
 * 用户组管理
 * 组织机构管理
 * 菜单管理
-* 菜单权限编辑
-* 数据字典类别管理
-* 数据字典管理
+* 数据字典
+* 操作日志
 * 定时任务管理
-* 操作日志管理
-* spring security oauth2 鉴权
-* 数据权限 
-* 组权限编辑后，清空权限值
+* 菜单权限
+* 数据权限（以组织机构为载体）
+* spring security oauth2鉴权，可细化到按钮权限
+* 更多的功能持续开发中...
+
+### 前端项目地址
+
+> pboot-front [https://gitee.com/funcas/pboot-front](https://gitee.com/funcas/pboot-front "With a Title"). 
+
+#### TODO
+* 缓存优化
+* Activiti集成

@@ -41,8 +41,6 @@ spring:
 #        login-password: admin
 
   http:
-    converters:
-      preferred-json-mapper: fastjson
     encoding:
       force: true
       charset: UTF-8

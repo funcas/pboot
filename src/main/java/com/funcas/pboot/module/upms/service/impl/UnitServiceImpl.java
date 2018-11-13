@@ -6,9 +6,11 @@ import com.funcas.pboot.common.util.IdWorker;
 import com.funcas.pboot.module.upms.entity.Unit;
 import com.funcas.pboot.module.upms.mapper.UnitMapper;
 import com.funcas.pboot.module.upms.service.IUnitService;
+import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +33,12 @@ public class UnitServiceImpl implements IUnitService {
         this.unitMapper = unitMapper;
     }
 
+    /**
+     * 保存组织机构信息
+     * @param entity
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "unitCache", key="#entity.id")
     public void saveUnit(Unit entity) {
         if(entity.getId() != null){
             entity.setMtime(new Date());
@@ -41,25 +46,18 @@ public class UnitServiceImpl implements IUnitService {
         }else{
             entity.setId(IdWorker.getId());
             entity.setCtime(new Date());
-            //todo 添加创建人
+            entity.setCreatorId(VariableUtils.getPrincipal().getBaseUser().getId());
             entity.setOrgCode(this.generateOrgCode(entity.getParentId()));
             unitMapper.insert(entity);
         }
 
     }
 
-    @Override
-//    @Cacheable(value = "unitCache", key = "#unitId + ''")
-    public Unit getOrganizationById(Long id) {
-        return unitMapper.selectById(id);
-    }
-
-    @Override
-    public List<Unit> findLeaveUnit() {
-        return unitMapper.selectList(new QueryWrapper<Unit>().eq("leaf", 1));
-    }
-
-
+    /**
+     * 根据父id获取组织机构列表
+     * @param pid
+     * @return
+     */
     @Override
     public List<Unit> getUnitByParentId(Long pid) {
         return unitMapper.selectList(new QueryWrapper<Unit>().eq("parent_id", pid));
@@ -78,6 +76,11 @@ public class UnitServiceImpl implements IUnitService {
         unitMapper.updateById(unit);
     }
 
+    /**
+     * 根据id获取组织机构
+     * @param id
+     * @return
+     */
     @Override
     public Unit selectOne(Long id) {
         return unitMapper.selectById(id);

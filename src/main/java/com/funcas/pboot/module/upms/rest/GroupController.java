@@ -30,6 +30,12 @@ public class GroupController extends BaseController {
         this.accountService = accountService;
     }
 
+    /**
+     * 分页获取组列表
+     * @param pageRequest
+     * @param filter
+     * @return
+     */
     @GetMapping("/groups")
     @PreAuthorize("hasAuthority('group:list')")
     public ApiResult list(PageRequest pageRequest, @RequestParam Map<String, Object> filter) {
@@ -37,12 +43,22 @@ public class GroupController extends BaseController {
         return success(groupList);
     }
 
+    /**
+     * 根据id获取组信息
+     * @param id
+     * @return
+     */
     @GetMapping("/group/{id}")
     @PreAuthorize("hasAuthority('group:edit')")
     public ApiResult edit(@PathVariable("id") Long id) {
         return success(accountService.getGroup(id));
     }
 
+    /**
+     * 保存组信息
+     * @param group
+     * @return
+     */
     @PostMapping("/group")
     @PreAuthorize("hasAuthority('group:save')")
     public ApiResult save(@RequestBody Group group) {
@@ -50,6 +66,11 @@ public class GroupController extends BaseController {
         return success(group);
     }
 
+    /**
+     * 按id删除组信息
+     * @param id
+     * @return
+     */
     @DeleteMapping("/group/{id}")
     @PreAuthorize("hasAuthority('group:delete')")
     public ApiResult delete(@PathVariable("id") Long id) {
@@ -57,6 +78,11 @@ public class GroupController extends BaseController {
         return success(id);
     }
 
+    /**
+     * 批量删除组
+     * @param ids
+     * @return
+     */
     @DeleteMapping("/group/batch")
     @PreAuthorize("hasAuthority('group:delete')")
     public ApiResult deleteBatch(List<Long> ids) {

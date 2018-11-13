@@ -26,18 +26,32 @@ public class ResourceController extends BaseController {
         this.accountService = accountService;
     }
 
+    /**
+     * 获取所有的菜单信息
+     * @return
+     */
     @GetMapping("/resources")
     @PreAuthorize("hasAuthority('resource:list')")
     public ApiResult getUserResources() {
         return success(accountService.mergeResources(accountService.getResources()));
     }
 
+    /**
+     * 根据id获取菜单信息
+     * @param id
+     * @return
+     */
     @GetMapping("/resource/{id}")
     @PreAuthorize("hasAuthority('resource:edit')")
     public ApiResult edit(@PathVariable("id") Long id) {
         return success(accountService.getResource(id));
     }
 
+    /**
+     * 保存菜单信息
+     * @param entity
+     * @return
+     */
     @PostMapping("/resource")
     @PreAuthorize("hasAuthority('resource:save')")
     public ApiResult save(@RequestBody Resource entity) {
@@ -45,6 +59,11 @@ public class ResourceController extends BaseController {
         return success(entity);
     }
 
+    /**
+     * 删除菜单
+     * @param id
+     * @return
+     */
     @DeleteMapping("/resource/{id}")
     @PreAuthorize("hasAuthority('resource:delete')")
     public ApiResult delete(@PathVariable("id") Long id) {

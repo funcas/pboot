@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 用户管理rest
  * @author funcas
  * @version 1.0
  * @date 2018年10月12日
@@ -41,6 +42,11 @@ public class UserController extends BaseController {
         this.accountService = accountService;
     }
 
+    /**
+     * 获取登陆用户信息接口
+     * @param authentication
+     * @return
+     */
     @GetMapping("/userinfo")
     public ApiResult getUserInfo(Authentication authentication){
         Long uid = ((BaseUserDetail)authentication.getPrincipal()).getBaseUser().getId();
@@ -56,6 +62,12 @@ public class UserController extends BaseController {
         return success(user);
     }
 
+    /**
+     * 获取用户列表接口
+     * @param pageRequest
+     * @param filter
+     * @return
+     */
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('user:list')")
     public ApiResult getUserLists(PageRequest pageRequest, @RequestParam Map<String,Object> filter){
@@ -63,6 +75,11 @@ public class UserController extends BaseController {
         return success(userIPage);
     }
 
+    /**
+     * 按昵称获取用户列表
+     * @param nickname
+     * @return
+     */
     @GetMapping("/users/all")
     @PreAuthorize("hasAuthority('user:list')")
     public ApiResult getAllUserLists(String nickname){
@@ -70,6 +87,11 @@ public class UserController extends BaseController {
         return success(users);
     }
 
+    /**
+     * 根据用户id获取用户信息
+     * @param userId
+     * @return
+     */
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAuthority('user:edit')")
     public ApiResult modifyUser(@PathVariable("userId") Long userId){
@@ -77,6 +99,11 @@ public class UserController extends BaseController {
         return success(user);
     }
 
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('user:save')")
     public ApiResult saveUser(@RequestBody User user) {
@@ -84,6 +111,11 @@ public class UserController extends BaseController {
         return success(user);
     }
 
+    /**
+     * 根据用户id删除用户
+     * @param userId
+     * @return
+     */
     @DeleteMapping("/user/{userId}")
     @PreAuthorize("hasAuthority('user:delete')")
     public ApiResult deleteUser(@PathVariable("userId") Long userId){
@@ -91,6 +123,11 @@ public class UserController extends BaseController {
         return success(userId);
     }
 
+    /**
+     * 批量删除用户（物理）
+     * @param ids
+     * @return
+     */
     @DeleteMapping("/user/batch")
     public ApiResult deleteUserBatch(@RequestBody List<Long> ids){
         accountService.deleteUsers(ids);

@@ -13,10 +13,6 @@ public interface IUnitService {
 
     public void saveUnit(Unit entity);
 
-    public Unit getOrganizationById(Long id);
-
-    public List<Unit> findLeaveUnit();
-
     public List<Unit> getUnitByParentId(Long pid);
 
     public List<Unit> getAllUnits();

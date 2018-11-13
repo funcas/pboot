@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
+ * 字典类别管理
  * @author funcas
  * @version 1.0
  * @date 2018年11月02日

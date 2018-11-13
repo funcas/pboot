@@ -19,25 +19,38 @@ import java.util.List;
 @RequestMapping("/sys")
 public class UnitController extends BaseController {
 
-    @Autowired
-    private IUnitService unitService;
+    private final IUnitService unitService;
 
+    @Autowired
+    public UnitController(IUnitService unitService) {
+        this.unitService = unitService;
+    }
+
+    /**
+     * 根据父id获取单位节点
+     * @param pid
+     * @return
+     */
     @GetMapping("/unit/tree/{pid}")
     public ApiResult getOrgByParentId(@PathVariable("pid") Long pid) {
         return success(unitService.getUnitByParentId(pid));
     }
 
+    /**
+     * 获取单位树信息
+     * @return
+     */
     @GetMapping("/units")
     @PreAuthorize("hasAuthority('unit:list')")
     public ApiResult getAllUnits() {
         return success(unitService.getAllUnits());
     }
 
-    @GetMapping("/org/org-leave")
-    public ApiResult getOrgLeave() {
-        return success(unitService.findLeaveUnit());
-    }
-
+    /**
+     * 保存组织机构
+     * @param entity
+     * @return
+     */
     @PostMapping("/unit")
     @PreAuthorize("hasAuthority('unit:save')")
     public ApiResult saveUnit(@RequestBody Unit entity){
@@ -45,6 +58,11 @@ public class UnitController extends BaseController {
         return success(entity);
     }
 
+    /**
+     * 根据id删除组织机构
+     * @param id
+     * @return
+     */
     @DeleteMapping("/unit/{id}")
     @PreAuthorize("hasAuthority('unit:delete')")
     public ApiResult deleteUnit(@PathVariable("id") Long id){

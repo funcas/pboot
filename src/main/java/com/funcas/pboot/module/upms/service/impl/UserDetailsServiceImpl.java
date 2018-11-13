@@ -26,10 +26,14 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final IAccountService userService;
+    private final IUnitService unitService;
+
     @Autowired
-    private IAccountService userService;
-    @Autowired
-    private IUnitService unitService;
+    public UserDetailsServiceImpl(IAccountService userService, IUnitService unitService) {
+        this.userService = userService;
+        this.unitService = unitService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {

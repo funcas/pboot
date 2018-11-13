@@ -12,10 +12,12 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
+ * 暂时废弃，因为与spring security oauth2序列化方式冲突，采用jackson
  * @author funcas
  * @version 1.0
  * @date 2018年10月12日
  */
+@Deprecated
 //@Configuration
 public class FastJson {
 
@@ -29,7 +31,6 @@ public class FastJson {
                 SerializerFeature.WriteMapNullValue
         );
         fastJsonConfig.setCharset(Charset.forName("UTF-8"));
-//        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         List<MediaType> fastMediaTypes = Lists.newArrayList();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         converter.setSupportedMediaTypes(fastMediaTypes);

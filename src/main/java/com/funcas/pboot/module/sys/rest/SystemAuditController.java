@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
+ * 操作日志管理
  * @author funcas
  * @version 1.0
  * @date 2018年11月06日
@@ -24,6 +25,12 @@ public class SystemAuditController extends BaseController {
     @Autowired
     private ISystemAuditService auditService;
 
+    /**
+     * 分页查询操作日志
+     * @param pageRequest
+     * @param filter
+     * @return
+     */
     @GetMapping("/audits")
     @PreAuthorize("hasAuthority('audit:list')")
     public ApiResult findAuditPaged(PageRequest pageRequest, Map<String,Object> filter){

@@ -30,6 +30,7 @@ import javax.sql.DataSource;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * spring security oauth2 配置
  * @author funcas
  * @version 1.0
  * @date 2018年10月18日

@@ -1,6 +1,8 @@
 package com.funcas.pboot.module.sys.annotation;
 
 
+import com.funcas.pboot.module.sys.aspect.OperatingRecordAspect;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

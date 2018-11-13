@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
+ * 数据字典管理
  * @author funcas
  * @version 1.0
  * @date 2018年11月02日
@@ -29,6 +30,12 @@ public class DataDictionaryController extends BaseController {
         this.systemVariableService = systemVariableService;
     }
 
+    /**
+     * 分页查询所有数据字典列表
+     * @param pageRequest
+     * @param filter
+     * @return
+     */
     @GetMapping("/dicts")
     @PreAuthorize("hasAuthority('data-dictionary:list')")
     public Object getDicts(PageRequest pageRequest, Map<String,Object> filter){
@@ -40,6 +47,11 @@ public class DataDictionaryController extends BaseController {
         return success(VariableUtils.get(FieldType.class));
     }
 
+    /**
+     * 保存数据字典
+     * @param entity
+     * @return
+     */
     @PostMapping("/dict")
     @PreAuthorize("hasAuthority('data-dictionary:save')")
     public Object saveDict(@RequestBody DataDictionary entity){
@@ -47,6 +59,11 @@ public class DataDictionaryController extends BaseController {
         return success(entity);
     }
 
+    /**
+     * 删除数据字典
+     * @param id
+     * @return
+     */
     @DeleteMapping("/dict/{id}")
     @PreAuthorize("hasAuthority('data-dictionary:delete')")
     public Object delDict(@PathVariable("id") Long id){

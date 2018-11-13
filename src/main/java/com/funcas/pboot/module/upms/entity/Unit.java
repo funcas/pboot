@@ -23,6 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Unit extends BaseEntity<Long> {
+    private static final long serialVersionUID = -2746111197872170173L;
     @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
     private String orgCode;
@@ -40,13 +41,14 @@ public class Unit extends BaseEntity<Long> {
     private String code;
     @JsonSerialize(using = ToStringSerializer.class)
     private Long modifierId;
-    @JsonIgnore
-    private Integer leaf;
+
     @TableField(exist = false)
     private List<Unit> children = Lists.newArrayList();
 
     @TableField(exist = false)
     private Boolean checked;
+    @TableField(exist = false)
+    private Integer leafCount;
 
     public String getTitle(){
         return this.name;
@@ -56,6 +58,13 @@ public class Unit extends BaseEntity<Long> {
         return this.name;
     }
 
+    public Boolean getChecked() {
+        return (leafCount != null && leafCount == 0 && this.checked);
+    }
+
+    public Boolean isLeaf() {
+        return leafCount != null && leafCount == 0;
+    }
 
     public void addChildren(Unit unit){
         this.children.add(unit);

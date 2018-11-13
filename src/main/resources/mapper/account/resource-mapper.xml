@@ -81,6 +81,7 @@
                 #{id}
             </foreach>
         </if>
+        order by sort ASC
     </select>
 
     <select id="getUserResources" resultType="com.funcas.pboot.module.upms.entity.Resource">
@@ -149,7 +150,8 @@
     </delete>
 
     <select id="selectGroupResources" resultType="resource">
-        select tr.*,IF(tgr.fk_group_id is null,0,1) checked
+        select tr.*,IF(tgr.fk_group_id is null,0,1) checked,
+               (select count(1) from tb_resource where fk_parent_id = tr.id) leafCount
         from
              tb_resource tr
         left join

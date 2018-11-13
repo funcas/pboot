@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.base.BaseController;
+import com.funcas.pboot.common.exception.ServiceException;
 import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.funcas.pboot.module.upms.entity.Group;
@@ -73,9 +74,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAuthority('user:edit')")
     public ApiResult modifyUser(@PathVariable("userId") Long userId){
         User user = accountService.getUser(userId);
-//        List<Group> groupList = accountService.getUserGroups(userId);
-//        user.setGroup(groupList);
-
         return success(user);
     }
 

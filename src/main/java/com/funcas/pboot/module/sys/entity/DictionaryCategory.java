@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @TableName("tb_dictionary_category")
 public class DictionaryCategory extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = -7569795294713771393L;
     @NotNull
     private String code;
     private String name;

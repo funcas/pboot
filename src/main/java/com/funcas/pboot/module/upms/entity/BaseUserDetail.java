@@ -14,6 +14,7 @@ import java.util.Collection;
  */
 public class BaseUserDetail implements UserDetails, CredentialsContainer {
 
+    private static final long serialVersionUID = 5962660241612205114L;
     private final com.funcas.pboot.module.upms.entity.User userVO;
     private final org.springframework.security.core.userdetails.User user;
 

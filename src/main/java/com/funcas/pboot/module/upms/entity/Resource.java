@@ -24,6 +24,7 @@ import java.util.List;
 @TableName("tb_resource")
 public class Resource extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = 9069295891223054114L;
     private String component;
     private String permission;
     private String remark;
@@ -41,12 +42,22 @@ public class Resource extends BaseEntity<Long> {
     private transient Resource parent;
     @TableField(exist = false)
     private Boolean checked;
+    @TableField(exist = false)
+    private Integer leafCount;
 
     public String getTitle(){
         return this.name;
     }
     public String getLabel(){
         return this.name;
+    }
+
+    public Boolean getChecked() {
+        return (leafCount != null && leafCount == 0 && this.checked);
+    }
+
+    public Boolean isLeaf() {
+        return leafCount != null && leafCount == 0;
     }
 
 }

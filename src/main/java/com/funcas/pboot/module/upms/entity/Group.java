@@ -21,6 +21,7 @@ import java.util.List;
 @TableName("tb_group")
 public class Group extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = -1589249335874361382L;
     private String name;
     private String remark;
     private Integer dataScope;

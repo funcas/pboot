@@ -61,7 +61,8 @@
     </select>
 
     <select id="selectGroupUnit" resultType="unit">
-        select tu.*, IF(tgu.group_id is null,0,1) checked
+        select tu.*, IF(tgu.group_id is null,0,1) checked,
+               (select count(1) from tb_unit where parent_id = tu.id) leafCount
         from
              tb_unit tu
         left join

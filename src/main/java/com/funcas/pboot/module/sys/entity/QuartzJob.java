@@ -21,6 +21,7 @@ import java.util.Date;
 @Data
 public class QuartzJob extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = -8793101812152456679L;
     private String cronExpression;
     private String remark;
     private String jobClassName;

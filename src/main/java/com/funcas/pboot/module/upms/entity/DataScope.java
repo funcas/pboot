@@ -14,6 +14,7 @@ import java.util.Comparator;
 @Data
 public class DataScope implements Serializable{
 
+    private static final long serialVersionUID = -4022924033336135360L;
     private User user;
     private String bizTableName;
     private String bizOrgColumn = "org_id";

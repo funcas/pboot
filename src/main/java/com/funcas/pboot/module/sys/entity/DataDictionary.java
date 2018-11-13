@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 @TableName("tb_data_dictionary")
 public class DataDictionary extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = -3831565201229237677L;
     @NotNull
     private String name;
     private String code;

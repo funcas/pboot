@@ -81,15 +81,15 @@ public class QrLoginController extends BaseController {
         return success(map("ticket", ticket, "_t", d));
     }
 
-    @RequestMapping("/test-pub")
-    public String pubMessage(String channel, String ticket, int code) {
-        QrLoginMessage qrLoginMessage = new QrLoginMessage();
-        qrLoginMessage.setId(ticket);
-        qrLoginMessage.setCode(code);
-        qrLoginMessage.setTimestamp(System.currentTimeMillis());
-        redisTemplate.convertAndSend(channel, FastJsonUtil.toJson(qrLoginMessage));
-        return "success";
-    }
+//    @RequestMapping("/test-pub")
+//    public String pubMessage(String channel, String ticket, int code) {
+//        QrLoginMessage qrLoginMessage = new QrLoginMessage();
+//        qrLoginMessage.setId(ticket);
+//        qrLoginMessage.setCode(code);
+//        qrLoginMessage.setTimestamp(System.currentTimeMillis());
+//        redisTemplate.convertAndSend(channel, FastJsonUtil.toJson(qrLoginMessage));
+//        return "success";
+//    }
 
     @RequestMapping("show-code")
     public void showQrCode(HttpServletRequest request, HttpServletResponse response) {
@@ -98,7 +98,7 @@ public class QrLoginController extends BaseController {
         try {
             String ticket = request.getParameter("ticket");
             String timestamp = request.getParameter("_t");
-            String content = ServletUtils.getServerUriPrefix(request) + "/wechat/scan?ticket=" + ticket;
+            String content = ServletUtils.getServerUriPrefix(request) + "/wechat/scan?ticket=" + ticket + "&_t=" + timestamp;
             stream = response.getOutputStream();
             QRCodeWriter writer = new QRCodeWriter();
             Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
@@ -123,30 +123,34 @@ public class QrLoginController extends BaseController {
 
 
     @RequestMapping("/doLogin")
-    public ApiResult doLogin(String ticket,String username){
-        User user = accountService.findUserByOpenid(username);
-        if(user != null){
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            String auth = "app" + ":" + "app";
-            String encodedAuth = EncodeUtils.encodeBase64(auth.getBytes(Charset.forName("UTF-8")));
-            String authHeader = "Basic " + encodedAuth;
-            headers.set("Authorization", authHeader);
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
-            params.add("username", username);
-            params.add("password", ticket);
-            params.add("grant_type", "password");
-            params.add("auth_type", "wx_scan");
-            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+    public ApiResult doLogin(String ticket,String username, Long timestamp){
+        if(AuthUtils.verifySign(ticket, timestamp, sysProps.getAppid())){
+            User user = accountService.findUserByOpenid(username);
+            if(user != null){
+                RestTemplate restTemplate = new RestTemplate();
+                HttpHeaders headers = new HttpHeaders();
+                String auth = "app" + ":" + "app";
+                String encodedAuth = EncodeUtils.encodeBase64(auth.getBytes(Charset.forName("UTF-8")));
+                String authHeader = "Basic " + encodedAuth;
+                headers.set("Authorization", authHeader);
+                headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
+                params.add("username", username);
+                params.add("password", ticket);
+                params.add("grant_type", "password");
+                params.add("auth_type", "wx_scan");
+                HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
-            OAuth2AccessToken ret = restTemplate.postForObject("http://localhost:9080/api/oauth/token", requestEntity, OAuth2AccessToken.class);
+                OAuth2AccessToken ret = restTemplate.postForObject("http://localhost:9080/api/oauth/token", requestEntity, OAuth2AccessToken.class);
 
-            AuthUtils.sendMessage(ticket, QrLoginCode.SUCCESS.getValue(), JacksonUtils.obj2json(ret));
-            return success(ret);
-        }else{
-            return ApiResult.builder().retCode("400").retMessage("未绑定").build();
+                AuthUtils.sendMessage(ticket, QrLoginCode.SUCCESS.getValue(), JacksonUtils.obj2json(ret));
+                AuthUtils.removeSign(ticket);
+                return success(ret);
+            }else{
+                return ApiResult.builder().retCode("400").retMessage("未绑定").build();
+            }
         }
+        return failure("非法请求");
 
     }
 }

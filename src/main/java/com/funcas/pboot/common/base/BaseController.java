@@ -110,7 +110,7 @@ public abstract class BaseController {
      * @return
      */
     public ApiResult failure(Object result){
-        return ApiResult.builder().apiResultEnum(ApiResultEnum.SUCCESS).result(result).build();
+        return ApiResult.builder().apiResultEnum(ApiResultEnum.VALIDATION_FAILURE).result(result).build();
     }
 
     /**

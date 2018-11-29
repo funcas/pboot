@@ -42,14 +42,14 @@ public class WechatController {
     public String scanQrCode(HttpServletRequest request){
         String ticket = request.getParameter("ticket");
         Long timestamp = VariableUtils.cast(request.getParameter("_t"), Long.class);
-        String redirectUrl = ServletUtils.getServerUriPrefix(request) + "/wechat/wxlogin?ticket=" + ticket;
+        String redirectUrl = ServletUtils.getServerUriPrefix(request) + "/wechat/wxlogin?ticket=" + ticket + "&timestamp=" + timestamp;
         String uri = SnsAPI.connectOauth2Authorize(sysProps.getAppid(), redirectUrl, true, "pboot");
         AuthUtils.sendMessage(ticket, QrLoginCode.SCANED.getValue(), null);
         return "redirect:" + uri;
     }
 
     @RequestMapping("/wxlogin")
-    public void wxLogin(String code, String ticket, Model model){
+    public void wxLogin(String code, String ticket, String timestamp, Model model){
         if(StringUtils.isEmpty(code)){
             throw new ServiceException("请使用微信登陆");
         }
@@ -57,6 +57,7 @@ public class WechatController {
         weixin.popular.bean.user.User user = SnsAPI.userinfo(snsToken.getAccess_token(), snsToken.getOpenid(), "zh_CN");
         model.addAttribute("username", user.getOpenid());
         model.addAttribute("ticket", ticket);
+        model.addAttribute("timestamp", timestamp);
     }
 
     @RequestMapping("/bind")
@@ -72,6 +73,9 @@ public class WechatController {
 
     @RequestMapping("/bind-error")
     public void bindError(){}
+
+    @RequestMapping("/login-error")
+    public void loginError(){}
 
     @RequestMapping(value = "/doBind",method = RequestMethod.POST)
     public String bindWechat(String username, String password, String openid){

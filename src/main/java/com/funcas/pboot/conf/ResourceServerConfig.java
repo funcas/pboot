@@ -26,7 +26,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers("/druid/**").anonymous()
+                .antMatchers("/druid/**","/wechat/**").anonymous()
+                .antMatchers("/res/**").anonymous()
                 .anyRequest().authenticated();
     }
 }

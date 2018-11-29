@@ -1,8 +1,13 @@
 package com.funcas.pboot.module.upms.token;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.funcas.pboot.common.util.EncodeUtils;
+import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.common.util.IdWorker;
+import com.funcas.pboot.common.util.JacksonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.HmacUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -15,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
  * @version 1.0
  * @date 2018年11月08日
  */
+@Slf4j
 public class HmacTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -26,11 +32,6 @@ public class HmacTokenEnhancer implements TokenEnhancer {
             if (refreshToken instanceof DefaultOAuth2RefreshToken) {
                 token.setRefreshToken(new DefaultOAuth2RefreshToken(generateToken(authentication.getOAuth2Request().getClientId())));
             }
-
-//            Map<String, Object> additionalInformation = new HashMap<String, Object>();
-//            additionalInformation.put("client_id", authentication.getOAuth2Request().getClientId());
-//            token.setAdditionalInformation(additionalInformation);
-
             return token;
         }
         return accessToken;

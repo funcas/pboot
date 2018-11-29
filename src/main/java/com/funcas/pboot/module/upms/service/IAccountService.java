@@ -38,6 +38,10 @@ public interface IAccountService {
 
     public List<User> findUsersByOrgId(Long orgId);
 
+    public User findUserByOpenid(String openId);
+
+    public void updateOpenidByUserId(User user);
+
     /**
      * 获取组
      *

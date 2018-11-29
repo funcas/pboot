@@ -164,6 +164,17 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
         return userMapper.findUserByOrgId(orgId);
     }
 
+    @Override
+    public User findUserByOpenid(String openId) {
+        return userMapper.selectOne(new QueryWrapper<User>().eq("openid", openId));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateOpenidByUserId(User user) {
+        userMapper.updateById(user);
+    }
+
 
     /**
      * 删除用户

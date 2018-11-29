@@ -20,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.List;
 import java.util.Map;
@@ -133,5 +134,6 @@ public class UserController extends BaseController {
         accountService.deleteUsers(ids);
         return success(ids);
     }
+
 
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>微信登录</title>
+    <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-waiting weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">即将使用微信登录系统，请确认是本人操作</h2>
+            <p class="weui-msg__desc">使用你的微信账登录系统</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="javascript:;" id="auth" class="weui-btn weui-btn_primary">确认登录</a>
+            </p>
+        </div>
+        <form action="" method="post" id="authForm">
+            <input type="hidden" th:value="${ticket}" name="ticket"/>
+            <input type="hidden" th:value="${username}" name="username" id="username"/>
+        </form>
+    </div>
+
+</body>
+<script>
+
+    $(function(){
+
+        $("#auth").click(function(){
+            var username = $("#username").val();
+            $.ajax({
+                url : '/api/wechat/doLogin',
+                method : 'POST',
+                data: $("#authForm").serializeArray(),
+                contentType: "application/x-www-form-urlencoded",
+                success: function(data){
+                    // alert(JSON.stringify(data));
+                    if(data.retCode === "400"){
+                        window.location.href = "/api/wechat/bind?openid=" + username;
+                    }
+                    if(data.retCode === "000"){
+                        window.location.href = "/api/wechat/login-success";
+                    }
+                }
+            });
+        });
+
+    })
+</script>
+</html>

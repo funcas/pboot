@@ -198,5 +198,18 @@ public abstract class ServletUtils {
 		return list;
 		
 	}
+
+	/**
+	 * 获取当前应用的uri前缀
+	 * @param request
+	 * @return
+	 */
+	public static String getServerUriPrefix(HttpServletRequest request){
+		int port = request.getServerPort();
+		if(port == 80 || port == 443){
+			return request.getScheme()+ "://" + request.getServerName() + request.getContextPath();
+		}
+		return request.getScheme()+ "://" + request.getServerName()+":" + request.getServerPort() +request.getContextPath();
+	}
 	
 }

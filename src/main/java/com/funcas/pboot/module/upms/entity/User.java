@@ -9,8 +9,10 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author funcas
@@ -41,8 +43,10 @@ public class User extends BaseEntity<Long> {
     private List<Group> groups;
     @TableField(exist = false)
     private Unit organization;
-
+    private String openid;
     @TableField(exist = false)
     private List<String> perms;
+
+    private transient Set<GrantedAuthority> grantedAuthorities;
 
 }

@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css">
+    <title>微信绑定</title>
+</head>
+<body>
+<div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-info weui-icon_msg"></i></div>
+</div>
+<div class="weui-cells weui-cells_form">
+    <form th:action="@{/wechat/doBind}" method="post" id="bind-form">
+        <input type="hidden" th:value="${openid}" name="openid">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" name="username" placeholder="请输入用户名"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">密码</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" name="password" type="password" placeholder="请输入密码">
+            </div>
+        </div>
+
+        <div style="padding:10px">
+            <button id="bind" type="submit" class="weui-btn weui-btn_primary">绑定</button>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>

@@ -58,4 +58,4 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 props:
   appid: wx258dfbc69f66c962
-  secret: 83a0c7eaba95d1085e39ba92ce6aa755
+  secret:

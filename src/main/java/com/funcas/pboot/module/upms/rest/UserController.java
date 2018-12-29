@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('user:save')")
-    public ApiResult saveUser(@RequestBody User user) {
+    public ApiResult saveUser(@Valid @RequestBody User user) {
         accountService.saveUser(user);
         return success(user);
     }

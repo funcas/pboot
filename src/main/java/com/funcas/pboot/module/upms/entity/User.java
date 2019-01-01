@@ -8,10 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
+import com.funcas.pboot.common.enumeration.entity.State;
+import com.funcas.pboot.module.util.VariableUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
@@ -27,21 +32,27 @@ import java.util.Set;
 public class User extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -2269302169894751895L;
-
+    @Length(max = 64)
+    @Email
     private String email;
 
-    @NotNull
     private String password;
 
+    @Length(max = 16)
     private String nickname;
     @NotNull
     private Integer state;
     @NotNull
+    @Length(max = 16)
     private String username;
+    @Length(max = 255)
     private String avatar;
+    @Length(max = 16)
     private String phone;
     private int sex;
+    @Length(max = 10)
     private String birthday;
+    @Length(max = 128)
     private String address;
     @JsonSerialize(using = ToStringSerializer.class)
     private Long unitId;
@@ -63,5 +74,9 @@ public class User extends BaseEntity<Long> {
     @JsonProperty
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStateName() {
+        return VariableUtils.getName(State.class, this.getState());
     }
 }

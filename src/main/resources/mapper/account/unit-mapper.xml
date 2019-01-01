@@ -70,4 +70,8 @@
         on tu.id = tgu.unit_id
     </select>
 
+    <select id="getCheckedUnitsByGroupId" resultType="java.lang.String">
+        select unit_id from tb_group_unit where group_id = #{groupId}
+    </select>
+
 </mapper>

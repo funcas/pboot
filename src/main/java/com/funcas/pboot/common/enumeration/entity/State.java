@@ -16,7 +16,7 @@ public enum State implements ValueEnum<Integer> {
     /**
      * 禁用
      */
-    DISABLE(2, "禁用");
+    DISABLE(0, "禁用");
 
     //值
     private Integer value;

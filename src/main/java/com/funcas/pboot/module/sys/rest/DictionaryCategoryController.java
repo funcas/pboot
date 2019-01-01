@@ -2,6 +2,7 @@ package com.funcas.pboot.module.sys.rest;
 
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
+import com.funcas.pboot.common.PropertyFilters;
 import com.funcas.pboot.common.base.BaseController;
 import com.funcas.pboot.module.sys.entity.DictionaryCategory;
 import com.funcas.pboot.module.sys.service.ISystemVariableService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -32,13 +35,13 @@ public class DictionaryCategoryController extends BaseController {
     /**
      * 分页查询字典类别
      * @param pageRequest
-     * @param filter
+     * @param request
      * @return
      */
     @GetMapping("/dict-categories")
     @PreAuthorize("hasAuthority('dictionary-category:list')")
-    public ApiResult getDictCategorys(PageRequest pageRequest, Map<String,Object> filter){
-        return success(systemVariableService.findDictionaryCategories(pageRequest, filter));
+    public ApiResult getDictCategorys(PageRequest pageRequest, HttpServletRequest request){
+        return success(systemVariableService.findDictionaryCategories(pageRequest, PropertyFilters.get(request, true)));
     }
 
     /**
@@ -48,7 +51,7 @@ public class DictionaryCategoryController extends BaseController {
      */
     @PostMapping("/dict-category")
     @PreAuthorize("hasAuthority('dictionary-category:save')")
-    public ApiResult saveDictCategory(@RequestBody DictionaryCategory entity){
+    public ApiResult saveDictCategory(@Valid @RequestBody DictionaryCategory entity){
         systemVariableService.saveDictionaryCategory(entity);
         return success(entity);
     }

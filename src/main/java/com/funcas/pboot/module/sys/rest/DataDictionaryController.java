@@ -1,6 +1,7 @@
 package com.funcas.pboot.module.sys.rest;
 
 import com.funcas.pboot.common.PageRequest;
+import com.funcas.pboot.common.PropertyFilters;
 import com.funcas.pboot.common.base.BaseController;
 import com.funcas.pboot.common.enumeration.FieldType;
 import com.funcas.pboot.module.sys.entity.DataDictionary;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -33,13 +36,13 @@ public class DataDictionaryController extends BaseController {
     /**
      * 分页查询所有数据字典列表
      * @param pageRequest
-     * @param filter
+     * @param request
      * @return
      */
     @GetMapping("/dicts")
     @PreAuthorize("hasAuthority('data-dictionary:list')")
-    public Object getDicts(PageRequest pageRequest, Map<String,Object> filter){
-        return success(systemVariableService.findDataDictionaries(pageRequest, filter));
+    public Object getDicts(PageRequest pageRequest, HttpServletRequest request){
+        return success(systemVariableService.findDataDictionaries(pageRequest, PropertyFilters.get(request, true)));
     }
 
     @GetMapping("/field-types")
@@ -54,7 +57,7 @@ public class DataDictionaryController extends BaseController {
      */
     @PostMapping("/dict")
     @PreAuthorize("hasAuthority('data-dictionary:save')")
-    public Object saveDict(@RequestBody DataDictionary entity){
+    public Object saveDict(@Valid @RequestBody DataDictionary entity){
         systemVariableService.saveDataDictionary(entity);
         return success(entity);
     }

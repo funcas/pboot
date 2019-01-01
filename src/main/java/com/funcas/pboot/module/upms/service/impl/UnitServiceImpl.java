@@ -95,6 +95,11 @@ public class UnitServiceImpl implements IUnitService {
         return this.mergeUnit(unitMapper.selectGroupUnit(id));
     }
 
+    @Override
+    public List<String> getCheckedUnitsByGroupId(Long groupId) {
+        return unitMapper.getCheckedUnitsByGroupId(groupId);
+    }
+
     private List<Unit> mergeUnit(List<Unit> units) {
         List<Unit> result = Lists.newArrayList();
 

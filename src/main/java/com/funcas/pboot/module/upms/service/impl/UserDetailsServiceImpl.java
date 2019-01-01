@@ -28,6 +28,8 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    public static final String DEFAULT_PERMS = "sys:default";
+
     private final IAccountService userService;
     private final IUnitService unitService;
     private final List<IAuthenticator> authenticators;
@@ -75,6 +77,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 grantedAuthorities.add(grantedAuthority);
             }
         }
+        grantedAuthorities.add(new SimpleGrantedAuthority(DEFAULT_PERMS));
         List<Group> groups = userService.getUserGroups(userVO.getId());
         Unit unit = unitService.selectOne(userVO.getUnitId());
         userVO.setGroups(groups);

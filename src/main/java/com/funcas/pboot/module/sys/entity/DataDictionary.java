@@ -9,6 +9,7 @@ import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 
@@ -24,10 +25,14 @@ public class DataDictionary extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -3831565201229237677L;
     @NotNull
+    @Max(16)
     private String name;
+    @Max(32)
     private String code;
     private String remark;
+    @Max(32)
     private String type;
+    @Max(64)
     private String value;
     @JsonSerialize(using = ToStringSerializer.class)
     private Long fkCategoryId;

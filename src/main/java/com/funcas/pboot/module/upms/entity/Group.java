@@ -9,6 +9,8 @@ import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -22,6 +24,8 @@ import java.util.List;
 public class Group extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -1589249335874361382L;
+
+    @NotNull
     private String name;
     private String remark;
     private Integer dataScope;

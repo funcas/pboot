@@ -580,4 +580,9 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
     public List<Resource> getResourcesByGroupId(Long groupId) {
         return mergeResources(resourceMapper.selectGroupResources(groupId));
     }
+
+    @Override
+    public List<String> getCheckedResourceIds(Long groupId) {
+        return resourceMapper.getResourceByGroupIds(groupId);
+    }
 }

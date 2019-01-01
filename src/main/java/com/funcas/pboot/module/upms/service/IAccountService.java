@@ -164,4 +164,6 @@ public interface IAccountService {
     public List<Resource> mergeResources(List<Resource> resources, ResourceType ignoreType) ;
 
     public List<Resource> getResourcesByGroupId(Long groupId);
+
+    public List<String> getCheckedResourceIds(Long groupId);
 }

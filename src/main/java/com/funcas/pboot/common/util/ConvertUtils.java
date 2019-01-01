@@ -18,7 +18,12 @@ import java.util.Date;
 public class ConvertUtils extends org.apache.commons.beanutils.ConvertUtils{
 	
 	static {
-		registerDateConverter("yyyy-MM-dd");
+		registerDateConverter(
+				"yyyy-MM-dd",
+				"yyyy-MM-dd HH:mm:ss",
+				"yyyyMMddHHmmss",
+				"yyyyMMdd",
+				"yyyyMMddHHmmssSSS");
 	}
 	
 	/**

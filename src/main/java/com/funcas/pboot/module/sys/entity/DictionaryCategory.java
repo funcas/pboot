@@ -5,6 +5,7 @@ import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,7 +20,9 @@ public class DictionaryCategory extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -7569795294713771393L;
     @NotNull
+    @Max(16)
     private String code;
+    @Max(32)
     private String name;
     private String remark;
 

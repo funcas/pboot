@@ -12,7 +12,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: 127.0.0.1
+    host: 192.168.2.218
     port: 6379
   application:
     name: spring-cloud-upms-server

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -20,10 +21,12 @@ public class DictionaryCategory extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -7569795294713771393L;
     @NotNull
-    @Max(16)
+    @Length(max = 16)
     private String code;
-    @Max(32)
+    @Length(max = 32)
     private String name;
     private String remark;
+    private boolean removeAble;
+    private boolean editAble;
 
 }

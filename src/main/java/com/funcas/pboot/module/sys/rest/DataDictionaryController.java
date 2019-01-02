@@ -70,6 +70,7 @@ public class DataDictionaryController extends BaseController {
     @DeleteMapping("/dict/{id}")
     @PreAuthorize("hasAuthority('data-dictionary:delete')")
     public Object delDict(@PathVariable("id") Long id){
+        // TODO: 2019-01-02 校验是否被使用 
         systemVariableService.deleteDataDictionaries(Lists.newArrayList(id));
         return success(id);
     }

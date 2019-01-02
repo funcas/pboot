@@ -64,6 +64,7 @@ public class DictionaryCategoryController extends BaseController {
     @DeleteMapping("/dict-category/{id}")
     @PreAuthorize("hasAuthority('dictionary-category:delete')")
     public ApiResult deleteCategoryById(@PathVariable("id") Long id){
+        // TODO: 2019-01-02 校验是否下挂项目 
         systemVariableService.deleteDictionaryCategories(Lists.newArrayList(id));
         return success(id);
     }

@@ -2,7 +2,6 @@ package com.funcas.pboot.module.sys.aspect;
 
 import com.funcas.pboot.common.util.ConvertUtils;
 import com.funcas.pboot.common.util.FastJsonUtil;
-import com.funcas.pboot.common.util.IOUtils;
 import com.funcas.pboot.common.util.ReflectionUtils;
 import com.funcas.pboot.conf.SpringMvcHolder;
 import com.funcas.pboot.module.sys.annotation.OperatingAudit;
@@ -16,18 +15,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * 操作记录Aspect,当执行某个Controller时会判断该Controller是否存在OperatingAudit

@@ -3,8 +3,6 @@ package com.funcas.pboot.module.sys.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.module.sys.entity.OperatingRecord;
-import com.funcas.pboot.module.sys.mapper.OperatingRecordMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 

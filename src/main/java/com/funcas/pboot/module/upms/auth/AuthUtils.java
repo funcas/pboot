@@ -5,13 +5,9 @@ import com.funcas.pboot.common.util.EncodeUtils;
 import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.conf.SpringContextHolder;
 import com.funcas.pboot.module.upms.entity.QrLoginMessage;
-import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**

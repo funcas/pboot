@@ -486,11 +486,7 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
     @Transactional(rollbackFor = Exception.class)
     public void saveResource(Resource entity) {
 
-        if ("".equals(entity.getFkParentId())) {
-            entity.setFkParentId(null);
-        }
-
-        if (entity.getSort() == null || "".equals(entity.getSort())) {
+        if (entity.getSort() == null) {
             entity.setSort(resourceMapper.selectCount(new QueryWrapper<>()));
         }
 
@@ -564,8 +560,8 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
 
             Integer type = entity.getType();
             Long id = parent.getId();
-
-            if ((ignoreType == null || !ignoreType.getValue().equals(type)) && parentId.equals(id)) {
+            boolean isIgnore = ignoreType == null || !ignoreType.getValue().equals(type);
+            if (isIgnore && parentId.equals(id)) {
                 recursionResource(entity, resources, ignoreType);
                 List<Resource> children = parent.getChildren();
                 if (children != null) {

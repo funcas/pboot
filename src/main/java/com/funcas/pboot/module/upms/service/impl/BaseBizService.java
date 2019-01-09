@@ -1,8 +1,8 @@
 package com.funcas.pboot.module.upms.service.impl;
 
-import com.funcas.pboot.module.upms.enumeration.DataScopeType;
 import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.User;
+import com.funcas.pboot.module.upms.enumeration.DataScopeType;
 import com.funcas.pboot.module.util.VariableUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

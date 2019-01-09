@@ -1,18 +1,14 @@
 package com.funcas.pboot.module.upms.auth.authenticator.support;
 
 import com.funcas.pboot.common.exception.ServiceException;
-import com.funcas.pboot.module.upms.auth.AuthUtils;
 import com.funcas.pboot.module.upms.auth.IntegrationAuthentication;
 import com.funcas.pboot.module.upms.auth.authenticator.AbstractPreparableAuthenticator;
-import com.funcas.pboot.module.upms.auth.authenticator.IAuthenticator;
 import com.funcas.pboot.module.upms.entity.User;
-import com.funcas.pboot.module.upms.enumeration.QrLoginCode;
 import com.funcas.pboot.module.upms.service.IAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import weixin.popular.api.SnsAPI;
 
 /**
  * @author funcas

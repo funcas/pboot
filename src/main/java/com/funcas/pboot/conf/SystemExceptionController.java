@@ -3,10 +3,10 @@ package com.funcas.pboot.conf;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.enumeration.ApiResultEnum;
 import com.funcas.pboot.common.exception.ServiceException;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author funcas

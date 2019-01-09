@@ -2,8 +2,6 @@ package com.funcas.pboot.module.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
 import com.funcas.pboot.module.sys.enumeration.OperatingState;
 import com.funcas.pboot.module.util.VariableUtils;

@@ -1,13 +1,9 @@
 package com.funcas.pboot.module.upms.token;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.funcas.pboot.common.util.EncodeUtils;
-import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.common.util.IdWorker;
-import com.funcas.pboot.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.HmacUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

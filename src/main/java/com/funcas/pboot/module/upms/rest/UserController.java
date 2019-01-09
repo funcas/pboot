@@ -5,29 +5,22 @@ import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
 import com.funcas.pboot.common.PropertyFilters;
 import com.funcas.pboot.common.base.BaseController;
-import com.funcas.pboot.common.exception.ServiceException;
-import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.module.upms.entity.BaseUserDetail;
-import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.entity.User;
 import com.funcas.pboot.module.upms.service.IAccountService;
 import com.funcas.pboot.module.upms.service.impl.UserDetailsServiceImpl;
-import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户管理rest

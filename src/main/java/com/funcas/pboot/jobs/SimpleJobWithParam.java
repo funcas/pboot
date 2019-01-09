@@ -5,8 +5,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.util.Date;
-
 /**
  * @author funcas
  * @version 1.0

@@ -8,6 +8,7 @@ import com.funcas.pboot.common.util.FastJsonUtil;
 import org.springframework.beans.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +120,7 @@ public abstract class BaseController {
      * @param key
      * @param value
      */
-    public void session(HttpServletRequest request,String key,Object value){
+    public void session(HttpServletRequest request, String key, Serializable value){
         request.getSession(true).setAttribute(key,value);
     }
 

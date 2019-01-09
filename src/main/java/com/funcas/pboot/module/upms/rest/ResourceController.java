@@ -2,7 +2,6 @@ package com.funcas.pboot.module.upms.rest;
 
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.base.BaseController;
-import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.service.IAccountService;
 import com.google.common.collect.Lists;
@@ -12,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 /**
  * @author funcas

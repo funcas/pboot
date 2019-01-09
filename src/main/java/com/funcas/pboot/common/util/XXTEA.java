@@ -53,7 +53,9 @@ public final class XXTEA {
     }
     public static final String encryptToBase64String(byte[] data, byte[] key) {
         byte[] bytes = encrypt(data, key);
-        if (bytes == null) return null;
+        if (bytes == null) {
+            return null;
+        }
         return new String(Base64.encodeBase64(bytes));
     }
     public static final String encryptToBase64String(String data, byte[] key) {

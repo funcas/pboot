@@ -23,7 +23,6 @@ import java.util.*;
 @SuppressWarnings("rawtypes")
 public abstract class ServletUtils {
 
-	//-- Content Type 定义 --//
 	public static final String EXCEL_TYPE = "application/vnd.ms-excel";
 	public static final String HTML_TYPE = "text/html";
 	public static final String JS_TYPE = "text/javascript";
@@ -31,11 +30,9 @@ public abstract class ServletUtils {
 	public static final String XML_TYPE = "text/xml";
 	public static final String TEXT_TYPE = "text/plain";
 
-	//-- Header 定义 --//
 	public static final String AUTHENTICATION_HEADER = "Authorization";
 
-	//-- 常用数值定义 --//
-	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365L;
 
 	/**
 	 * 设置客户端缓存过期时间 的Header.

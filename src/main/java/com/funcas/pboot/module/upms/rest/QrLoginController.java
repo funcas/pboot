@@ -110,14 +110,14 @@ public class QrLoginController extends BaseController {
             BitMatrix m = writer.encode(content, BarcodeFormat.QR_CODE, 200, 200, hints);
             MatrixToImageUtils.writeToStream(m, "png", stream);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(null, e);
         } finally {
             if (stream != null) {
                 try {
                     stream.flush();
                     stream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(null, e);
                 }
 
             }

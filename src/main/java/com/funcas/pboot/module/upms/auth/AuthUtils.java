@@ -17,10 +17,10 @@ import java.nio.charset.Charset;
  */
 public class AuthUtils {
 
-    public static final byte[] DYNAMICKEY = CryptoUtils.generateHmacSha1Key();
-    public static final String DYNAMIC_IV = EncodeUtils.encodeBase64(CryptoUtils.generateIV());
-    public static final String CHANNEL = "qrLogin";
-    public static final String REIDS_KEY_HASH_SIGN = "qrLogin:sign";
+    private static final byte[] DYNAMICKEY = CryptoUtils.generateHmacSha1Key();
+    private static final String DYNAMIC_IV = EncodeUtils.encodeBase64(CryptoUtils.generateIV());
+    private static final String CHANNEL = "qrLogin";
+    private static final String REIDS_KEY_HASH_SIGN = "qrLogin:sign";
 
     public static String generateTicket(long timestamp, String appid){
         String data = DYNAMIC_IV + ";" + timestamp + ";" + appid;

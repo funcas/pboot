@@ -28,6 +28,9 @@ import java.util.UUID;
  */
 public class IdWorker {
 
+	private IdWorker() {
+	}
+
 	/**
 	 * 主机和进程的机器码
 	 */

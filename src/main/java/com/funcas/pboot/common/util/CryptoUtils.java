@@ -24,7 +24,7 @@ import java.util.Arrays;
  */
 public class CryptoUtils {
 	private static final String AES = "AES";
-	private static final String AES_CBC = "AES/CBC/PKCS5Padding";
+	private static final String AES_CBC = "AES/GCM/PKCS5Padding";
 	private static final String HMACSHA1 = "HmacSHA1";
 
 	// RFC2401

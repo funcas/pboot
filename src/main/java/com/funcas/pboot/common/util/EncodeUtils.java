@@ -5,6 +5,7 @@
  */
 package com.funcas.pboot.common.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
@@ -21,6 +22,7 @@ import java.net.URLEncoder;
  * 
  * @author calvin
  */
+@Slf4j
 public class EncodeUtils {
 
 	private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -160,7 +162,7 @@ public class EncodeUtils {
 		try {
 			return URLEncoder.encode(part, DEFAULT_URL_ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
 		return part;
 	}
@@ -173,7 +175,7 @@ public class EncodeUtils {
 		try {
 			return URLDecoder.decode(part, DEFAULT_URL_ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
 		return part;
 	}

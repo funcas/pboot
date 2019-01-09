@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class JwtAccessToken extends JwtAccessTokenConverter {
 
-    public static String USER_INFO = "user_info";
+    private final static String USER_INFO = "user_info";
 
     /**
      * 生成token

@@ -3,6 +3,7 @@ package com.funcas.pboot.conf;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.enumeration.ApiResultEnum;
 import com.funcas.pboot.common.exception.ServiceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @ControllerAdvice
+@Slf4j
 public class SystemExceptionController {
 
     @ExceptionHandler(ServiceException.class)
@@ -24,7 +26,7 @@ public class SystemExceptionController {
 
     @ExceptionHandler
     public ApiResult globalException(Throwable throwable) {
-        throwable.printStackTrace();
+        log.error(null, throwable);
         return ApiResult.builder().apiResultEnum(ApiResultEnum.UNKNOWN_EXCEPTION).result(throwable.getMessage()).build();
     }
 

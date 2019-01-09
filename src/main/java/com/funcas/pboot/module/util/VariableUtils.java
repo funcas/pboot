@@ -32,13 +32,13 @@ public class VariableUtils {
     /**
      * 默认字典值的值名称
      */
-    public static final String DEFAULT_VALUE_NAME = "name";
+    private final static String DEFAULT_VALUE_NAME = "name";
     /**
      * 默认字典值的键名称
      */
-    public static final String DEFAULT_KEY_NAME = "value";
+    private final static String DEFAULT_KEY_NAME = "value";
 
-    static public String DEFAULT_DICTIONARY_VALUE = "无";
+    private final static String DEFAULT_DICTIONARY_VALUE = "无";
 
     /**
      * 系统变量业务逻辑

@@ -73,7 +73,7 @@ public class RestTestCaseSupport extends ServiceTestCaseSupport{
                     .andExpect(status().isOk())
                     .andExpect(content().contentType("application/json;charset=UTF-8"));
             String resultStr = resultActions.andReturn().getResponse().getContentAsString();
-            Map<String, Object> result = FastJsonUtil.getBean(resultStr, Map.class);
+            Map result = FastJsonUtil.getBean(resultStr, Map.class);
             return (String)result.get("access_token");
         } catch (Exception e) {
             e.printStackTrace();

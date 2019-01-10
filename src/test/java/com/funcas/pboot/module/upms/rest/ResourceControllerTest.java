@@ -38,7 +38,7 @@ public class ResourceControllerTest extends RestTestCaseSupport {
     @Test
     public void testDelete() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(delete("/sys/unit")
+        MvcResult mvcResult = mockMvc.perform(delete("/sys/resource/1")
                 .header("Authorization", "bearer " + this.accessToken))
                 .andExpect(status().isOk()).andReturn();
         assertCode(mvcResult.getResponse().getContentAsString());

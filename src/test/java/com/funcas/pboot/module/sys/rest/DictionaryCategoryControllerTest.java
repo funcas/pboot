@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -37,7 +36,7 @@ public class DictionaryCategoryControllerTest extends RestTestCaseSupport {
         category.setName("test");
         category.setCode("TEST");
         category.setRemark("");
-        MvcResult mvcResult = mockMvc.perform(get("/sys/dict-category")
+        MvcResult mvcResult = mockMvc.perform(post("/sys/dict-category")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(FastJsonUtil.toJson(category))
                 .header("Authorization", "bearer " + this.accessToken))

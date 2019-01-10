@@ -51,6 +51,7 @@ INSERT INTO tb_resource VALUES (1062240022591176704, NULL, 'unit:delete', NULL, 
 INSERT INTO tb_resource VALUES (1062240186521354241, NULL, 'data-dictionary:list', NULL, 37, '查看数据字典', 2, NULL, 15, NULL);
 INSERT INTO tb_resource VALUES (1062240281648168960, NULL, 'dictionary-category:list', NULL, 1, '查看字典类别', 2, NULL, 19, NULL);
 INSERT INTO tb_resource VALUES (1062240364850577408, NULL, 'job:list', NULL, 1, '查看定时任务', 2, NULL, 1061795714310340609, NULL);
+INSERT INTO tb_resource(id, component, permission, remark, sort, name, type, value, fk_parent_id, icon) VALUES (1062240364850577409, NULL, 'job:delete', NULL, 1, '删除定时任务', 2, NULL, 1061795714310340609, NULL);
 
 INSERT INTO tb_group_user VALUES (1, 3);
 INSERT INTO tb_group_user VALUES (2, 4);
@@ -141,6 +142,7 @@ INSERT INTO tb_group_resource VALUES (1062240022591176704, 3);
 INSERT INTO tb_group_resource VALUES (1062240186521354241, 3);
 INSERT INTO tb_group_resource VALUES (1062240281648168960, 3);
 INSERT INTO tb_group_resource VALUES (1062240364850577408, 3);
+INSERT INTO tb_group_resource(fk_resource_id, fk_group_id) VALUES (1062240364850577409, 3);
 
 
 INSERT INTO tb_dictionary_category VALUES (1, 'STATE', '状态', NULL, 0, 0);
@@ -154,14 +156,17 @@ INSERT INTO tb_data_dictionary VALUES (10, '导航类型', 'RESOURCE_TYPE_NAV', 
 INSERT INTO tb_data_dictionary VALUES (11, '安全类型', 'RESOURCE_TYPE_SECURITY', '', 'INTEGER', '2', 2);
 INSERT INTO tb_data_dictionary VALUES (12, '管理员角色ID', 'SYSTEM_VAR_ROLE_ID', '', 'LONG', '3', 3);
 
-INSERT INTO `tb_unit` VALUES (1, 0, '001', '山东省总公司', 10, '2', '100000', 1, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:12', '1', 0);
-INSERT INTO `tb_unit` VALUES (2, 1, '001001', '公司领导', 10, '2', '100001', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:16', '1', 0);
-INSERT INTO `tb_unit` VALUES (3, 1, '001002', '综合部', 20, '2', '100002', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:20', '1', 0);
-INSERT INTO `tb_unit` VALUES (4, 1, '001003', '市场部', 30, '2', '100003', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:23', '1', 0);
-INSERT INTO `tb_unit` VALUES (5, 1, '001004', '技术部', 40, '2', '100004', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:27', '1', 0);
-INSERT INTO `tb_unit` VALUES (6, 1, '001005', '研发部', 50, '2', '100005', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:30', '1', 0);
-INSERT INTO `tb_unit` VALUES (7, 1, '001006', '济南市分公司', 20, '3', '200000', 1, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:37', '1', 0);
-INSERT INTO `tb_unit` VALUES (8, 7, '001006001', '公司领导', 10, '3', '200001', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:45', '1', 0);
-INSERT INTO `tb_unit` VALUES (9, 7, '001006002', '综合部', 20, '3', '200002', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:48', '1', 0);
-INSERT INTO `tb_unit` VALUES (10, 7, '001006003', '市场部', 30, '3', '200003', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:50', '1', 0);
-INSERT INTO `tb_unit` VALUES (11, 7, '001006004', '技术部', 40, '3', '200004', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:53', '1', 0);
+INSERT INTO tb_unit VALUES (1, 0, '001', '山东省总公司', 10, '2', '100000', 1, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:12', '1', 0);
+INSERT INTO tb_unit VALUES (2, 1, '001001', '公司领导', 10, '2', '100001', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:16', '1', 0);
+INSERT INTO tb_unit VALUES (3, 1, '001002', '综合部', 20, '2', '100002', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:20', '1', 0);
+INSERT INTO tb_unit VALUES (4, 1, '001003', '市场部', 30, '2', '100003', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:23', '1', 0);
+INSERT INTO tb_unit VALUES (5, 1, '001004', '技术部', 40, '2', '100004', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:27', '1', 0);
+INSERT INTO tb_unit VALUES (6, 1, '001005', '研发部', 50, '2', '100005', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:30', '1', 0);
+INSERT INTO tb_unit VALUES (7, 1, '001006', '济南市分公司', 20, '3', '200000', 1, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:37', '1', 0);
+INSERT INTO tb_unit VALUES (8, 7, '001006001', '公司领导', 10, '3', '200001', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:45', '1', 0);
+INSERT INTO tb_unit VALUES (9, 7, '001006002', '综合部', 20, '3', '200002', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:48', '1', 0);
+INSERT INTO tb_unit VALUES (10, 7, '001006003', '市场部', 30, '3', '200003', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:50', '1', 0);
+INSERT INTO tb_unit VALUES (11, 7, '001006004', '技术部', 40, '3', '200004', NULL, NULL, NULL, 1, NULL, NULL, 1, '2018-08-15 15:03:53', '1', 0);
+
+INSERT INTO tb_quartz_job(id, job_class_name, parameter, cron_expression, state, remark, ctime, created, del_flag) VALUES (1, 'com.funcas.pboot.jobs.SimpleJob', NULL, '0/15 * * * * ?', 3, '这是一个不带参数的定时任务', '2018-11-05 14:37:24', NULL, 0);
+INSERT INTO tb_quartz_job(id, job_class_name, parameter, cron_expression, state, remark, ctime, created, del_flag) VALUES (1059357054302420992, 'com.funcas.pboot.jobs.SimpleJobWithParam', 'hello quartz', '0/10 * * * * ?', 3, '这是一个测试带参数的定时器，什么也没做', '2018-11-05 02:09:38', NULL, NULL);

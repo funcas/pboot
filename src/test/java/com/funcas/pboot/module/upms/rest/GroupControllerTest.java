@@ -30,7 +30,7 @@ public class GroupControllerTest extends RestTestCaseSupport {
     public void save() throws Exception {
         Group group = new Group();
         group.setName("demo");
-        MvcResult mvcResult = mockMvc.perform(post("/sys/unit")
+        MvcResult mvcResult = mockMvc.perform(post("/sys/group")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(FastJsonUtil.toJson(group))
                 .header("Authorization", "bearer " + this.accessToken))
@@ -40,8 +40,9 @@ public class GroupControllerTest extends RestTestCaseSupport {
 
     @Test
     public void testDelete() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(delete("/sys/unit")
+        MvcResult mvcResult = mockMvc.perform(delete("/sys/group/1")
                 .header("Authorization", "bearer " + this.accessToken))
                 .andExpect(status().isOk()).andReturn();
+        assertCode(mvcResult.getResponse().getContentAsString());
     }
 }

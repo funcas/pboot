@@ -30,7 +30,7 @@ CREATE TABLE `oauth_access_token` (
   `authentication` blob,
   `refresh_token` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`authentication_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of oauth_access_token

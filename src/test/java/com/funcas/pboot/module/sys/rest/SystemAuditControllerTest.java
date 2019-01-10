@@ -2,8 +2,10 @@ package com.funcas.pboot.module.sys.rest;
 
 import com.funcas.pboot.module.RestTestCaseSupport;
 import org.junit.Test;
+import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author funcas
@@ -13,6 +15,11 @@ import static org.junit.Assert.*;
 public class SystemAuditControllerTest extends RestTestCaseSupport {
 
     @Test
-    public void findAuditPaged() {
+    public void findAuditPaged() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(get("/sys/audits")
+                .header("Authorization", "bearer " + this.accessToken))
+                .andExpect(status().isOk()).andReturn();
+        assertCode(mvcResult.getResponse().getContentAsString());
     }
 }

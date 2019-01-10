@@ -53,9 +53,6 @@ public class UnitServiceImplTest extends ServiceTestCaseSupport {
         Assert.assertEquals(before.size() + 1, after.size());
     }
 
-    @Test
-    public void getAllUnits() {
-    }
 
     @Test
     @Transactional

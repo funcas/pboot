@@ -35,7 +35,7 @@ spring:
   profiles: test
   datasource:
     druid:
-      url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+      url: jdbc:h2:mem:platform;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
       username: sa
       passwordsa:
       driver-class-name: org.h2.Driver
@@ -60,8 +60,9 @@ spring:
     #        allow:
     #        login-username: admin
     #        login-password: admin
-    schema:
-    data:
+    schema: classpath:database/h2/schema.sql
+    data: classpath:database/h2/data.sql
+    initialization-mode: always
 
 ---
 

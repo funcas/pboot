@@ -54,7 +54,7 @@ public class RestTestCaseSupport extends ServiceTestCaseSupport{
 
     protected void assertCode(String result) {
         ApiResult ret = FastJsonUtil.getBean(result, ApiResult.class);
-        Assert.assertEquals(ret.getRetCode(), "000");
+        Assert.assertEquals("000", ret.getRetCode());
     }
 
 

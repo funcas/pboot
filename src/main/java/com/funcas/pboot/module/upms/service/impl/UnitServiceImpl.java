@@ -44,7 +44,7 @@ public class UnitServiceImpl implements IUnitService {
         }else{
             entity.setId(IdWorker.getId());
             entity.setCtime(new Date());
-            entity.setCreatorId(VariableUtils.getPrincipal().getBaseUser().getId());
+            entity.setCreatorId(VariableUtils.getPrincipal() == null ? null : VariableUtils.getPrincipal().getBaseUser().getId());
             entity.setOrgCode(this.generateOrgCode(entity.getParentId()));
             unitMapper.insert(entity);
         }
@@ -86,6 +86,7 @@ public class UnitServiceImpl implements IUnitService {
 
     /**
      * 按用户组查询关联的组织
+     * @param id 用户id
      * @return
      */
     @Override

@@ -182,6 +182,7 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
      * @param entity 用户实体 Map
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteUser(User entity) {
         DataDictionary data = VariableUtils.getDataDictionary("SYSTEM_VAR_ROLE_ID");
 

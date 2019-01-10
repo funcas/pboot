@@ -1,11 +1,13 @@
 package com.funcas.pboot.module.upms.service.impl;
 
+import com.funcas.pboot.module.upms.entity.BaseUserDetail;
 import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.User;
 import com.funcas.pboot.module.upms.enumeration.DataScopeType;
 import com.funcas.pboot.module.util.VariableUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 
 /**
  * @author funcas
@@ -30,6 +32,8 @@ public abstract class BaseBizService {
      * @return
      */
     protected String dataScopeFilter(String bizAlias, String unitColumn, String userColumn) {
+        BaseUserDetail baseUserDetail = VariableUtils.getPrincipal();
+        Assert.notNull(baseUserDetail, "获取用户信息失败");
         User user = VariableUtils.getPrincipal().getBaseUser();
         Integer dataScopeValue = 99;
         Long groupId = 0L;

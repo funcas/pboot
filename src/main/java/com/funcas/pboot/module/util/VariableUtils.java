@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -219,7 +218,9 @@ public class VariableUtils {
 
     public static BaseUserDetail getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Assert.notNull(authentication, "未认证");
+        if (authentication == null) {
+            return null;
+        }
         return (BaseUserDetail) authentication.getPrincipal();
     }
 
@@ -229,7 +230,9 @@ public class VariableUtils {
      */
     public static String getAccessToken(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Assert.notNull(authentication, "未认证");
+        if (authentication == null) {
+            return null;
+        }
         return ((OAuth2AuthenticationDetails)authentication.getDetails()).getTokenValue();
     }
 

@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class ApiResult implements Serializable {
 
+    private static final long serialVersionUID = 1439768882125600323L;
     private Object retCode;
     private String retMessage;
     private Object result;

@@ -61,13 +61,17 @@
     </select>
 
     <select id="selectGroupUnit" resultType="unit">
-        select tu.*, IF(tgu.group_id is null,0,1) checked,
+        select tu.*, case when tgu.group_id is null then 0 else 1 end checked,
                (select count(1) from tb_unit where parent_id = tu.id) leafCount
         from
              tb_unit tu
         left join
             (select group_id, unit_id from tb_group_unit where group_id = #{groupId}) tgu
         on tu.id = tgu.unit_id
+    </select>
+
+    <select id="getCheckedUnitsByGroupId" resultType="java.lang.String">
+        select unit_id from tb_group_unit where group_id = #{groupId}
     </select>
 
 </mapper>

@@ -1,5 +1,8 @@
 package com.funcas.pboot.common.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,15 +11,22 @@ import java.util.Map;
 
 /**
  * JDBC工具类
- * Created by ZhangShuzheng on 2017/1/10.
+ * 2017/1/10.
  */
 public class JdbcUtil {
+	private final static Logger log = LoggerFactory.getLogger(JacksonUtils.class);
 
-	// 定义数据库的链接
+	/**
+	 * 定义数据库的链接
+	 */
 	private Connection conn;
-	// 定义sql语句的执行对象
+	/**
+	 * 定义sql语句的执行对象
+	 */
 	private PreparedStatement pstmt;
-	// 定义查询返回的结果集合
+	/**
+	 * 定义查询返回的结果集合
+	 */
 	private ResultSet rs;
 
 	// 初始化
@@ -24,9 +34,9 @@ public class JdbcUtil {
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("数据库连接成功");
+			log.info("数据库连接成功");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
 	}
 
@@ -87,9 +97,9 @@ public class JdbcUtil {
                 conn.close();
             }
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
-		System.out.println("释放数据库连接");
+		log.info("释放数据库连接");
 	}
 
 }

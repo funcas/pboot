@@ -475,7 +475,7 @@ public abstract class ReflectionUtils {
 	 * 
 	 * @return List
 	 */
-	public static <T extends Annotation> List<T> getAnnotations(
+	private static <T extends Annotation> List<T> getAnnotations(
 			Class targetClass, Class annotationClass) {
 		Assert.notNull(targetClass, "targetClass不能为空");
 		Assert.notNull(annotationClass, "annotationClass不能为空");
@@ -499,16 +499,14 @@ public abstract class ReflectionUtils {
 		// 获取方法中的注解
 		CollectionUtils.addAll(result, getAnnotations(methods, annotationClass)
 				.iterator());
-
-		for (Class<?> superClass = targetClass.getSuperclass(); superClass == null
-				|| superClass == Object.class; superClass = superClass
-				.getSuperclass()) {
+		Class<?> superClass = targetClass.getSuperclass();
+		while(superClass != null && superClass != Object.class) {
 			List<T> temp = getAnnotations(superClass, annotationClass);
 			if (CollectionUtils.isNotEmpty(temp)) {
 				CollectionUtils.addAll(result, temp.iterator());
 			}
+			superClass = superClass.getSuperclass();
 		}
-
 		return result;
 	}
 
@@ -547,12 +545,11 @@ public abstract class ReflectionUtils {
 	 */
 	public static <T extends Annotation> List<T> getAnnotations(Field[] fields,
 			Class annotationClass) {
+		List<T> result = new ArrayList<T>();
 
 		if (ArrayUtils.isEmpty(fields)) {
-			return null;
+			return result;
 		}
-
-		List<T> result = new ArrayList<T>();
 
 		for (Field field : fields) {
 			field.setAccessible(true);
@@ -601,11 +598,11 @@ public abstract class ReflectionUtils {
 	public static <T extends Annotation> List<T> getAnnotations(
 			Method[] methods, Class annotationClass) {
 
-		if (ArrayUtils.isEmpty(methods)) {
-			return null;
-		}
-
 		List<T> result = new ArrayList<T>();
+
+		if (ArrayUtils.isEmpty(methods)) {
+			return result;
+		}
 
 		for (Method method : methods) {
 
@@ -655,12 +652,12 @@ public abstract class ReflectionUtils {
 	 */
 	public static <T extends Annotation> List<T> getAnnotations(
 			Constructor[] constructors, Class annotationClass) {
+		List<T> result = new ArrayList<T>();
+
 
 		if (ArrayUtils.isEmpty(constructors)) {
-			return null;
+			return result;
 		}
-
-		List<T> result = new ArrayList<T>();
 
 		for (Constructor constructor : constructors) {
 			Annotation annotation = getAnnotation(constructor, annotationClass);

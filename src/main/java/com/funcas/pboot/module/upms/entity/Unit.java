@@ -1,15 +1,14 @@
 package com.funcas.pboot.module.upms.entity;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.funcas.pboot.common.BaseEntity;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 import java.util.List;
@@ -26,12 +25,18 @@ public class Unit extends BaseEntity<Long> {
     private static final long serialVersionUID = -2746111197872170173L;
     @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
+    @Length(max = 2000)
     private String orgCode;
+    @Length(max = 100)
     private String name;
+
     private Integer sort;
-    private String master;
+
+    private Long master;
+    @Length(max = 16)
     private String phone;
     private Integer state;
+    @Length(max = 255)
     private String remarks;
     private Integer delFlag;
     @JsonSerialize(using = ToStringSerializer.class)

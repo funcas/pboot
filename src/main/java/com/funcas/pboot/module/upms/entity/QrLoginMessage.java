@@ -1,11 +1,8 @@
 package com.funcas.pboot.module.upms.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import java.util.Map;
 
 /**
  * @author funcas

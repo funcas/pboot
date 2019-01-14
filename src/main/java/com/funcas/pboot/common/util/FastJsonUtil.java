@@ -44,7 +44,7 @@ public class FastJsonUtil {
      * @return
      */
     public static <T> List<T> getListBeans(String jsonString, Class<T> cls) {
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         try {
             list = JSON.parseArray(jsonString, cls);
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class FastJsonUtil {
      * @return
      */
     public static List<Map<String, Object>> getListMap(String jsonString) {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
             // 两种写法
             // list = JSON.parseObject(jsonString, new

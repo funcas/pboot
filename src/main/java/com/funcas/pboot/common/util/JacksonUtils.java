@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ import java.util.Map;
  * @date 2018年11月29日
  */
 public class JacksonUtils {
-
+    private final static Logger log = LoggerFactory.getLogger(JacksonUtils.class);
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     private JacksonUtils() {
@@ -36,7 +38,7 @@ public class JacksonUtils {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error(null, e);
         }
         return null;
     }
@@ -62,7 +64,7 @@ public class JacksonUtils {
     /**
      * json字符串转换为map
      */
-    public static <T> Map<String, Object> json2map(String jsonString) throws Exception {
+    public static Map<String, Object> json2map(String jsonString) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.readValue(jsonString, Map.class);
@@ -74,7 +76,7 @@ public class JacksonUtils {
     public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
         Map<String, Map<String, Object>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, T>>() {
         });
-        Map<String, T> result = new HashMap<String, T>();
+        Map<String, T> result = new HashMap<>();
         for (Map.Entry<String, Map<String, Object>> entry : map.entrySet()) {
             result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
         }
@@ -194,7 +196,7 @@ public class JacksonUtils {
         try {
             return objectMapper.writeValueAsString(map);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(null, e);
         }
         return "";
     }

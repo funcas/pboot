@@ -14,8 +14,8 @@ import java.util.*;
  */
 public class FantasyCollections {
 
-    public final static Map EMPTY_MAP = map();
-    public final static List EMPTY_LIST = list();
+    protected final static Map EMPTY_MAP = map();
+    protected final static List EMPTY_LIST = list();
 
     public static <T> Set<T> newHashSet(T... arrays) {
         Set<T> sets = new HashSet<T>(arrays.length);

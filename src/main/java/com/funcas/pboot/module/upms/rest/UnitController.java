@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class UnitController extends BaseController {
      */
     @PostMapping("/unit")
     @PreAuthorize("hasAuthority('unit:save')")
-    public ApiResult saveUnit(@RequestBody Unit entity){
+    public ApiResult saveUnit(@Valid @RequestBody Unit entity){
         unitService.saveUnit(entity);
         return success(entity);
     }
@@ -79,5 +80,10 @@ public class UnitController extends BaseController {
     public ApiResult getGroupUnits(@PathVariable("id") Long id) {
         List<Unit> unitList = unitService.getGroupUnit(id);
         return success(unitList);
+    }
+
+    @GetMapping("/unit/checked")
+    public ApiResult getCheckedUnit(@RequestParam("id") Long groupId) {
+        return success(unitService.getCheckedUnitsByGroupId(groupId));
     }
 }

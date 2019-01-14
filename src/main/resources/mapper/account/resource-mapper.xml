@@ -160,4 +160,8 @@
 
     </select>
 
+    <select id="getResourceByGroupIds" resultType="java.lang.String">
+        select fk_resource_id from tb_group_resource where fk_group_id = #{groupId}
+    </select>
+
 </mapper>

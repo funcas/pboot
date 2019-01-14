@@ -22,4 +22,7 @@ public interface UnitMapper extends BaseMapper<Unit> {
     String genOrgCode(@Param("parentId") Long parentId);
 
     List<Unit> selectGroupUnit(@Param("groupId") Long groupId);
+
+    public List<String> getCheckedUnitsByGroupId(@Param("groupId") Long groupId);
+
 }

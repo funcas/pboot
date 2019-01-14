@@ -11,7 +11,9 @@
             id AS "id",
 			code AS "code",
 			name AS "name",
-			remark AS "remark"
+			remark AS "remark",
+            edit_able as "editAble",
+            remove_able as "removeAble"
           FROM
             tb_dictionary_category
           <if test="ignore != null and ignore.length > 0">
@@ -28,7 +30,9 @@
           id AS "id",
           code AS "code",
           name AS "name",
-          remark AS "remark"
+          remark AS "remark",
+          edit_able as "editAble",
+          remove_able as "removeAble"
         FROM
           tb_dictionary_category
         <where>

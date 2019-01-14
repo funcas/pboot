@@ -9,8 +9,6 @@ import com.funcas.pboot.module.upms.service.IUnitService;
 import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +44,7 @@ public class UnitServiceImpl implements IUnitService {
         }else{
             entity.setId(IdWorker.getId());
             entity.setCtime(new Date());
-            entity.setCreatorId(VariableUtils.getPrincipal().getBaseUser().getId());
+            entity.setCreatorId(VariableUtils.getPrincipal() == null ? null : VariableUtils.getPrincipal().getBaseUser().getId());
             entity.setOrgCode(this.generateOrgCode(entity.getParentId()));
             unitMapper.insert(entity);
         }
@@ -88,11 +86,17 @@ public class UnitServiceImpl implements IUnitService {
 
     /**
      * 按用户组查询关联的组织
+     * @param id 用户id
      * @return
      */
     @Override
     public List<Unit> getGroupUnit(Long id) {
         return this.mergeUnit(unitMapper.selectGroupUnit(id));
+    }
+
+    @Override
+    public List<String> getCheckedUnitsByGroupId(Long groupId) {
+        return unitMapper.getCheckedUnitsByGroupId(groupId);
     }
 
     private List<Unit> mergeUnit(List<Unit> units) {

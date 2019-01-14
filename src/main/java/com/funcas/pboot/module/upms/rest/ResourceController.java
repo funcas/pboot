@@ -7,9 +7,10 @@ import com.funcas.pboot.module.upms.service.IAccountService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 
 /**
  * @author funcas
@@ -32,7 +33,8 @@ public class ResourceController extends BaseController {
      */
     @GetMapping("/resources")
     @PreAuthorize("hasAuthority('resource:list')")
-    public ApiResult getUserResources() {
+    public ApiResult getUserResources(Authentication authentication) {
+//        Long uid = ((BaseUserDetail)authentication.getPrincipal()).getBaseUser().getId();
         return success(accountService.mergeResources(accountService.getResources()));
     }
 
@@ -54,7 +56,7 @@ public class ResourceController extends BaseController {
      */
     @PostMapping("/resource")
     @PreAuthorize("hasAuthority('resource:save')")
-    public ApiResult save(@RequestBody Resource entity) {
+    public ApiResult save(@Valid @RequestBody Resource entity) {
         accountService.saveResource(entity);
         return success(entity);
     }
@@ -80,4 +82,11 @@ public class ResourceController extends BaseController {
     public ApiResult getResourceByGroupId(@PathVariable("id") Long id){
         return success(accountService.getResourcesByGroupId(id));
     }
+
+    @GetMapping("/resource/checked")
+    public ApiResult getResourceIdsByGroupId(@RequestParam("id") Long id) {
+        return success(accountService.getCheckedResourceIds(id));
+    }
+
+
 }

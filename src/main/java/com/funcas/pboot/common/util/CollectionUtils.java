@@ -15,6 +15,7 @@
  */
 package com.funcas.pboot.common.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +28,7 @@ import java.util.*;
  *
  */
 @SuppressWarnings({"rawtypes","unchecked"})
+@Slf4j
 public class CollectionUtils extends org.apache.commons.collections.CollectionUtils{
 	
 	/**
@@ -44,7 +46,7 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
 				map.put(PropertyUtils.getProperty(obj, keyPropertyName),PropertyUtils.getProperty(obj, valuePropertyName));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
 
 		return map;
@@ -87,7 +89,7 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
 				list.add(PropertyUtils.getProperty(obj, propertyName));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(null, e);
 		}
 
 		return list;

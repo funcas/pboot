@@ -13,31 +13,31 @@ public enum FieldType implements ValueEnum<Class<?>> {
     /**
      * String 类型
      */
-    STRING("STRING", String.class),
+    S("STRING", String.class),
     /**
      * Integer 类型
      */
-    INTEGER("INTEGER", Integer.class),
+    I("INTEGER", Integer.class),
     /**
      * Long 类型
      */
-    LONG("LONG", Long.class),
+    L("LONG", Long.class),
     /**
      * Double 类型
      */
-    DOUBLE("DOUBLE", Double.class),
+    F("DOUBLE", Double.class),
     /**
      * Date 类型
      */
-    DATE("DATE", Date.class),
+    D("DATE", Date.class),
     /**
      * Boolean 类型
      */
-    BOOLEAN("BOOLEAN", Boolean.class),
+    B("BOOLEAN", Boolean.class),
     /**
      * BigDecimal 类型
      */
-    DECIMAL("DECIMAL",BigDecimal .class);
+    M("DECIMAL",BigDecimal .class);
 
     // 名称
     private String name;

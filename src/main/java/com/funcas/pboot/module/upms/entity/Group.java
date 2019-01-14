@@ -1,6 +1,5 @@
 package com.funcas.pboot.module.upms.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,6 +8,7 @@ import com.funcas.pboot.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -22,6 +22,8 @@ import java.util.List;
 public class Group extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -1589249335874361382L;
+
+    @NotNull
     private String name;
     private String remark;
     private Integer dataScope;

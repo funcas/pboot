@@ -3,6 +3,7 @@ package com.funcas.pboot.module.upms.rest;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
+import com.funcas.pboot.common.PropertyFilters;
 import com.funcas.pboot.common.base.BaseController;
 import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.service.IAccountService;
@@ -11,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author funcas
@@ -33,13 +35,13 @@ public class GroupController extends BaseController {
     /**
      * 分页获取组列表
      * @param pageRequest
-     * @param filter
+     * @param request
      * @return
      */
     @GetMapping("/groups")
     @PreAuthorize("hasAuthority('group:list')")
-    public ApiResult list(PageRequest pageRequest, @RequestParam Map<String, Object> filter) {
-        IPage<Group> groupList = accountService.findGroups(pageRequest, filter);
+    public ApiResult list(PageRequest pageRequest, HttpServletRequest request) {
+        IPage<Group> groupList = accountService.findGroups(pageRequest, PropertyFilters.get(request, true));
         return success(groupList);
     }
 
@@ -61,7 +63,7 @@ public class GroupController extends BaseController {
      */
     @PostMapping("/group")
     @PreAuthorize("hasAuthority('group:save')")
-    public ApiResult save(@RequestBody Group group) {
+    public ApiResult save(@Valid @RequestBody Group group) {
         accountService.saveGroup(group);
         return success(group);
     }

@@ -3,27 +3,24 @@ package com.funcas.pboot.module.upms.rest;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.PageRequest;
+import com.funcas.pboot.common.PropertyFilters;
 import com.funcas.pboot.common.base.BaseController;
-import com.funcas.pboot.common.exception.ServiceException;
-import com.funcas.pboot.common.util.FastJsonUtil;
 import com.funcas.pboot.module.upms.entity.BaseUserDetail;
-import com.funcas.pboot.module.upms.entity.Group;
 import com.funcas.pboot.module.upms.entity.Resource;
 import com.funcas.pboot.module.upms.entity.User;
 import com.funcas.pboot.module.upms.service.IAccountService;
-import com.funcas.pboot.module.util.VariableUtils;
+import com.funcas.pboot.module.upms.service.impl.UserDetailsServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户管理rest
@@ -59,6 +56,7 @@ public class UserController extends BaseController {
                 perms.add(resource.getPermission());
             }
         }
+        perms.add(UserDetailsServiceImpl.DEFAULT_PERMS);
         user.setPerms(perms);
         return success(user);
     }
@@ -66,13 +64,13 @@ public class UserController extends BaseController {
     /**
      * 获取用户列表接口
      * @param pageRequest
-     * @param filter
+     * @param request
      * @return
      */
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('user:list')")
-    public ApiResult getUserLists(PageRequest pageRequest, @RequestParam Map<String,Object> filter){
-        IPage<User> userIPage = accountService.findUsers(pageRequest, filter);
+    public ApiResult getUserLists(PageRequest pageRequest, HttpServletRequest request){
+        IPage<User> userIPage = accountService.findUsers(pageRequest, PropertyFilters.get(request, true));
         return success(userIPage);
     }
 
@@ -107,7 +105,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('user:save')")
-    public ApiResult saveUser(@RequestBody User user) {
+    public ApiResult saveUser(@Valid @RequestBody User user) {
         accountService.saveUser(user);
         return success(user);
     }

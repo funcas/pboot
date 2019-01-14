@@ -16,20 +16,7 @@
  */
 package com.funcas.pboot.common.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,7 +118,7 @@ public class IOUtils {
     public static long write(Reader reader, Writer writer, int bufferSize) throws IOException {
         int read;
         long total = 0;
-        char[] buf = new char[BUFFER_SIZE];
+        char[] buf = new char[bufferSize];
         while ((read = reader.read(buf)) != -1) {
             writer.write(buf, 0, read);
             total += read;
@@ -162,7 +149,7 @@ public class IOUtils {
      * @throws IOException
      */
     public static String[] readLines(InputStream is) throws IOException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
             String line;
@@ -182,15 +169,12 @@ public class IOUtils {
      * @param lines lines.
      * @throws IOException
      */
-    public static void writeLines(OutputStream os, String[] lines) throws IOException {
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(os));
-        try {
+    public static void writeLines(OutputStream os, String[] lines) {
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(os))) {
             for (String line : lines) {
                 writer.println(line);
             }
             writer.flush();
-        } finally {
-            writer.close();
         }
     }
 

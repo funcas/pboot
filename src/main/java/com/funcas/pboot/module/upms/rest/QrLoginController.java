@@ -2,7 +2,10 @@ package com.funcas.pboot.module.upms.rest;
 
 import com.funcas.pboot.common.ApiResult;
 import com.funcas.pboot.common.base.BaseController;
-import com.funcas.pboot.common.util.*;
+import com.funcas.pboot.common.util.EncodeUtils;
+import com.funcas.pboot.common.util.JacksonUtils;
+import com.funcas.pboot.common.util.MatrixToImageUtils;
+import com.funcas.pboot.common.util.ServletUtils;
 import com.funcas.pboot.conf.SysProps;
 import com.funcas.pboot.module.upms.auth.AuthUtils;
 import com.funcas.pboot.module.upms.entity.QrLoginMessage;
@@ -21,10 +24,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -33,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -107,14 +110,14 @@ public class QrLoginController extends BaseController {
             BitMatrix m = writer.encode(content, BarcodeFormat.QR_CODE, 200, 200, hints);
             MatrixToImageUtils.writeToStream(m, "png", stream);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(null, e);
         } finally {
             if (stream != null) {
                 try {
                     stream.flush();
                     stream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(null, e);
                 }
 
             }

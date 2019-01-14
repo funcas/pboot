@@ -60,4 +60,6 @@ public interface ResourceMapper extends BaseMapper<Resource> {
     void deleteGroupAssociation(@Param("id") Long id);
 
     List<Resource> selectGroupResources(@Param("groupId") Long groupId);
+
+    List<String> getResourceByGroupIds(@Param("groupId") Long groupId);
 }

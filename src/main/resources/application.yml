@@ -1,7 +1,5 @@
 spring:
-  profiles:
-    active: dev_mysql
-
+  profiles: dev_mysql
   datasource:
     druid:
       url: jdbc:mysql://localhost:3306/platform?useSSL=false&allowPublicKeyRetrieval=true
@@ -32,9 +30,7 @@ spring:
 ---
 
 spring:
-  profiles:
-    active: dev_pgsql
-
+  profiles: dev_pgsql
   datasource:
     druid:
       url: jdbc:postgresql://localhost:5432/platform

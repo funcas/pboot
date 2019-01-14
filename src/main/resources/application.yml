@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: dev_mysql
 
   datasource:
     druid:
@@ -8,6 +8,39 @@ spring:
       username: root
       password: P@ssw0rd
       driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: select 1
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      filters: stat
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+  #        deny:
+  #        allow:
+  #        login-username: admin
+  #        login-password: admin
+---
+
+spring:
+  profiles:
+    active: dev_pgsql
+
+  datasource:
+    druid:
+      url: jdbc:postgresql://localhost:5432/platform
+      username: funcas
+      password: P@ssw0rd
+      driver-class-name: org.postgresql.Driver
       initial-size: 5
       max-active: 20
       min-idle: 5
@@ -71,6 +104,8 @@ server:
   servlet:
     context-path: /api
 spring:
+  profiles:
+    active: dev_mysql
   thymeleaf:
     cache: false
     mode: HTML

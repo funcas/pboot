@@ -59,7 +59,7 @@ public class SystemVariableServiceImplTest extends ServiceTestCaseSupport {
     public void saveDictionaryCategory() {
         int before = countRowsInTable(TABLE_NAME_CATE);
         DictionaryCategory category = new DictionaryCategory();
-        category.setCode("TEST");
+        category.setCode("TEST1");
         category.setName("test");
         category.setEditAble(true);
         category.setRemoveAble(true);

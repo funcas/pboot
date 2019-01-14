@@ -26,12 +26,6 @@ public class SystemVariableServiceImplTest extends ServiceTestCaseSupport {
     private ISystemVariableService systemVariableService;
 
     @Test
-    public void getDataDictionary() {
-        DataDictionary dataDictionary = systemVariableService.getDataDictionary(1L);
-        Assert.assertEquals(dataDictionary.getCode(), "STATE_ENABLE");
-    }
-
-    @Test
     @Transactional
     public void saveDataDictionary() {
         int before = countRowsInTable(TABLE_NAME_DICT);

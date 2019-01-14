@@ -58,7 +58,7 @@ CREATE TABLE tb_dictionary_category
   remove_able tinyint(1),
   edit_able tinyint(1),
   PRIMARY KEY (id),
-  UNIQUE KEY uk_9qkei4dxobl1lm4oa0ys8c3nr (code) USING BTREE
+  UNIQUE KEY uk_9qkei4dxobl1lm4oa0ys8c3nr (code)
 );
 
 CREATE TABLE tb_data_dictionary

@@ -34,6 +34,5 @@ public class Bootstrap {
 
         SpringApplication.run(Bootstrap.class, args);
 
-
     }
 }

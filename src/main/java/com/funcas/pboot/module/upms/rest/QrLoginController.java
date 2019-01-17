@@ -18,6 +18,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -27,7 +28,6 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -50,17 +50,21 @@ import java.util.Map;
 @RequestMapping("/wechat")
 public class QrLoginController extends BaseController {
 
+    private final RedisTemplate<String, String> redisTemplate;
+    private final MessageContainer<QrLoginMessage> messageContainer;
+    private final SysProps sysProps;
+    private final IAccountService accountService;
+
     @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
-    MessageContainer<QrLoginMessage> messageContainer;
-    @Autowired
-    private SysProps sysProps;
-    @Autowired
-    private IAccountService accountService;
+    public QrLoginController(RedisTemplate<String, String> redisTemplate, MessageContainer<QrLoginMessage> messageContainer, SysProps sysProps, IAccountService accountService) {
+        this.redisTemplate = redisTemplate;
+        this.messageContainer = messageContainer;
+        this.sysProps = sysProps;
+        this.accountService = accountService;
+    }
 
     @RequestMapping("/qrlogin")
-    public Object getMessage(String ticket, @RequestParam("_t") long timestamp) throws InterruptedException {
+    public Object getMessage(String ticket) throws InterruptedException {
         //设置超时30s,超时返回null
         DeferredResult<QrLoginMessage> result = new DeferredResult<>(27000L, null);
         final Map<String, DeferredResult<QrLoginMessage>> resultMap = messageContainer.getUserMessages();
@@ -84,15 +88,11 @@ public class QrLoginController extends BaseController {
         return success(map("ticket", ticket, "_t", d));
     }
 
-//    @RequestMapping("/test-pub")
-//    public String pubMessage(String channel, String ticket, int code) {
-//        QrLoginMessage qrLoginMessage = new QrLoginMessage();
-//        qrLoginMessage.setId(ticket);
-//        qrLoginMessage.setCode(code);
-//        qrLoginMessage.setTimestamp(System.currentTimeMillis());
-//        redisTemplate.convertAndSend(channel, FastJsonUtil.toJson(qrLoginMessage));
-//        return "success";
-//    }
+    @RequestMapping("/refresh")
+    public ApiResult refreshCode(String ticket) {
+        AuthUtils.sendMessage(ticket, 205, "");
+        return success(map("ticket", ticket, "_t", System.currentTimeMillis()));
+    }
 
     @RequestMapping("show-code")
     public void showQrCode(HttpServletRequest request, HttpServletResponse response) {
@@ -126,9 +126,10 @@ public class QrLoginController extends BaseController {
 
 
     @RequestMapping("/doLogin")
-    public ApiResult doLogin(String ticket,String username, Long timestamp){
-        if(AuthUtils.verifySign(ticket, timestamp, sysProps.getAppid())){
-            User user = accountService.findUserByOpenid(username);
+    public ApiResult doLogin(String ticket){
+        String openId = redisTemplate.<String, String>opsForHash().get(AuthUtils.KEY_WECHAT_SESSION, ticket);
+        if(StringUtils.isNotEmpty(openId)) {
+            User user = accountService.findUserByOpenid(openId);
             if(user != null){
                 RestTemplate restTemplate = new RestTemplate();
                 HttpHeaders headers = new HttpHeaders();
@@ -138,7 +139,7 @@ public class QrLoginController extends BaseController {
                 headers.set("Authorization", authHeader);
                 headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
                 MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
-                params.add("username", username);
+                params.add("username", openId);
                 params.add("password", ticket);
                 params.add("grant_type", "password");
                 params.add("auth_type", "wx_scan");
@@ -147,12 +148,13 @@ public class QrLoginController extends BaseController {
                 OAuth2AccessToken ret = restTemplate.postForObject("http://localhost:9080/api/oauth/token", requestEntity, OAuth2AccessToken.class);
 
                 AuthUtils.sendMessage(ticket, QrLoginCode.SUCCESS.getValue(), JacksonUtils.obj2json(ret));
-                AuthUtils.removeSign(ticket);
+                redisTemplate.opsForHash().delete(AuthUtils.KEY_WECHAT_SESSION, ticket);
                 return success(ret);
             }else{
                 return ApiResult.builder().retCode("400").retMessage("未绑定").build();
             }
         }
+
         return failure("非法请求");
 
     }

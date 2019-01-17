@@ -175,9 +175,20 @@
             <version>1.1.10</version>
         </dependency>
         <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-words</artifactId>
+            <version>18.9</version>
+            <classifier>jdk16</classifier>
+        </dependency>
+        <dependency>
             <groupId>com.github.liyiorg</groupId>
             <artifactId>weixin-popular</artifactId>
             <version>2.8.24</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

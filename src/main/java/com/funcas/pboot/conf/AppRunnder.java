@@ -1,5 +1,6 @@
 package com.funcas.pboot.conf;
 
+import com.funcas.pboot.common.util.WordUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.Ordered;
@@ -25,6 +26,7 @@ public class AppRunnder implements ApplicationRunner, Ordered {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 在这里可以初始化一些启动后执行的逻辑块
+        WordUtils.getLicense();
         System.out.println("############################################");
         System.out.println("#             Congratulations!             #");
         System.out.println("#                                          #");

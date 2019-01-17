@@ -23,9 +23,7 @@
             </p>
         </div>
         <form action="" method="post" id="authForm">
-            <input type="hidden" th:value="${ticket}" name="ticket"/>
-            <input type="hidden" th:value="${username}" name="username" id="username"/>
-            <input type="hidden" th:value="${timestamp}" name="timestamp" />
+            <input type="hidden" th:value="${ticket}" name="ticket" id="ticket"/>
         </form>
     </div>
 
@@ -35,7 +33,7 @@
     $(function(){
 
         $("#auth").click(function(){
-            var username = $("#username").val();
+            var ticket = $("#ticket").val();
             $.ajax({
                 url : '/api/wechat/doLogin',
                 method : 'POST',
@@ -44,7 +42,7 @@
                 success: function(data){
                     // alert(JSON.stringify(data));
                     if(data.retCode === "400"){
-                        window.location.href = "/api/wechat/bind?openid=" + username;
+                        window.location.href = "/api/wechat/bind?ck=" + ticket;
                     }else if(data.retCode === "000"){
                         window.location.href = "/api/wechat/login-success";
                     }else{

@@ -16,4 +16,5 @@ public class SysProps {
 
     private String appid;
     private String secret;
+    private String jwtSecurity;
 }

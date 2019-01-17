@@ -14,7 +14,7 @@
 </div>
 <div class="weui-cells weui-cells_form">
     <form th:action="@{/wechat/doBind}" method="post" id="bind-form">
-        <input type="hidden" th:value="${openid}" name="openid">
+        <input type="hidden" th:value="${ck}" name="ticket">
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
             <div class="weui-cell__bd">

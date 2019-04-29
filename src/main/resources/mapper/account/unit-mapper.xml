@@ -74,4 +74,29 @@
         select unit_id from tb_group_unit where group_id = #{groupId}
     </select>
 
+    <select id="getUnits" resultType="unit">
+        select tu.* ,IF(tgu.group_id is null,0,1) checked from
+        (select id,
+        parent_id parentId,
+        org_code orgCode,
+        name,
+        sort,
+        area_id areaId,
+        code,
+        type,
+        master,
+        phone,
+        state,
+        remarks
+        from tb_unit where
+        del_flag = #{filter.delFlag}
+        <if test="filter.ds != null and filter.ds != ''">
+            AND ${filter.ds}
+        </if>) tu
+        left join (select group_id, unit_id from tb_group_unit where group_id = #{filter.groupId}) tgu
+        on tu.id = tgu.unit_id
+        order by tu.orgCode
+
+    </select>
+
 </mapper>

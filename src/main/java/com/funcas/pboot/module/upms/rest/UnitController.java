@@ -86,4 +86,13 @@ public class UnitController extends BaseController {
     public ApiResult getCheckedUnit(@RequestParam("id") Long groupId) {
         return success(unitService.getCheckedUnitsByGroupId(groupId));
     }
+
+    /**
+     * 根据数据权限获取组织机构
+     * @return
+     */
+    @GetMapping("/unit/ds")
+    public ApiResult getUnitsByDataScope(@RequestParam("groupId") Long groupId) {
+        return success(unitService.getUnitByDataScope(groupId));
+    }
 }

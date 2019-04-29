@@ -246,8 +246,7 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
      */
     @Override
     public IPage<User> findUsers(PageRequest pageRequest, Map<String, Object> filter) {
-        String sql = dataScopeFilter("tb_user");
-        filter.put("ds", sql);
+        processDataScopeFilter(filter, User.ALIAS);
         return userMapper.find(new Page<>(pageRequest.getPageNumber(), pageRequest.getPageSize()), filter);
     }
 
@@ -385,6 +384,10 @@ public class AccountServiceImpl extends BaseBizService implements IAccountServic
      */
     @Override
     public IPage<Group> findGroups(PageRequest pageRequest, Map<String,Object> filter) {
+        processDataScopeFilter(filter, Group.GROUP_ALIAS);
+        if (isSuperAdmin()) {
+            filter.put("superAdmin", "1");
+        }
         return groupMapper.find(new Page<>(pageRequest.getPageNumber(),pageRequest.getPageSize()), filter);
     }
 

@@ -18,9 +18,9 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_group")
+@TableName(Group.GROUP_ALIAS)
 public class Group extends BaseEntity<Long> {
-
+    public static final String GROUP_ALIAS = "tb_group";
     private static final long serialVersionUID = -1589249335874361382L;
 
     @NotNull
@@ -28,7 +28,7 @@ public class Group extends BaseEntity<Long> {
     private String remark;
     private Integer dataScope;
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long orgId;
+    private Long unitId;
     @TableField(exist = false)
     private List<Long> resourceIds;
     @TableField(exist = false)

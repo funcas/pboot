@@ -81,7 +81,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<Group> groups = userService.getUserGroups(userVO.getId());
         Unit unit = unitService.selectOne(userVO.getUnitId());
         userVO.setGroups(groups);
-        userVO.setOrganization(unit);
+        userVO.setUnit(unit);
         userVO.setGrantedAuthorities(grantedAuthorities);
     }
 

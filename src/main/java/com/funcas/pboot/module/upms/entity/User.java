@@ -25,11 +25,12 @@ import java.util.Set;
  * @version 1.0
  * @date 2018年04月09日
  */
-@TableName("tb_user")
+@TableName(User.ALIAS)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity<Long> {
 
+    public static final String ALIAS = "tb_user";
     private static final long serialVersionUID = -2269302169894751895L;
     @Length(max = 64)
     @Email
@@ -58,7 +59,7 @@ public class User extends BaseEntity<Long> {
     @TableField(exist = false)
     private List<Group> groups;
     @TableField(exist = false)
-    private Unit organization;
+    private Unit unit;
     private String openid;
     @TableField(exist = false)
     private List<String> perms;

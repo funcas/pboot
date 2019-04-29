@@ -25,4 +25,6 @@ public interface IUnitService {
 
     public List<String> getCheckedUnitsByGroupId(Long groupId);
 
+    public List<Unit> getUnitByDataScope(Long groupId);
+
 }

@@ -8,12 +8,14 @@ import com.funcas.pboot.module.upms.mapper.UnitMapper;
 import com.funcas.pboot.module.upms.service.IUnitService;
 import com.funcas.pboot.module.util.VariableUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author funcas
@@ -22,7 +24,7 @@ import java.util.List;
  */
 @Service("organizationService")
 @Transactional(readOnly = true, rollbackFor = Exception.class)
-public class UnitServiceImpl implements IUnitService {
+public class UnitServiceImpl extends BaseBizService implements IUnitService {
 
     private final UnitMapper unitMapper;
 
@@ -49,6 +51,31 @@ public class UnitServiceImpl implements IUnitService {
             unitMapper.insert(entity);
         }
 
+    }
+    @Override
+    public List<Unit> getUnitByDataScope(Long groupId) {
+        Map<String,Object> filterMap = Maps.newHashMap();
+        filterMap.put("delFlag", DelFlag.NORMAL.getValue());
+        String ds = this.dataScopeFilter(Unit.ALIAS, "id", USER_COLUMN);
+        filterMap.put(DS_FILTER, ds);
+        filterMap.put("groupId", groupId);
+        return this.mergeUnit2(unitMapper.getUnits(filterMap));
+    }
+
+    private List<Unit> mergeUnit2(List<Unit> units) {
+        List<Unit> result = Lists.newArrayList();
+        String orgCode = units.get(0).getOrgCode();
+        int minLevel = orgCode.length();
+        for (Unit entity : units) {
+            if (entity.getOrgCode().length() - 3 < minLevel) {
+                recursionResource(entity, units);
+                result.add(entity);
+            }
+
+
+        }
+
+        return result;
     }
 
     /**

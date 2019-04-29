@@ -10,7 +10,7 @@
           g.id as "id",
           g.name as "name",
           g.remark as "remark",
-          g.org_id as orgId,
+          g.unit_id as unitId,
           g.data_scope as dataScope
         FROM
           tb_group g
@@ -31,16 +31,20 @@
           id as "id",
           name as "name",
           remark as "remark",
-          org_id as orgId,
+          unit_id as unitId,
           data_scope as dataScope
         FROM
           tb_group
-        <where>
-            <if test="filter.name != null and filter.name != ''">
-                <bind name="name" value=" '%' + filter.name + '%' " />
-                name LIKE #{name}
-            </if>
-        </where>
+        where
+        (1 = 1)
+        <if test="filter.name != null and filter.name != ''">
+            <bind name="name" value=" '%' + filter.name + '%' " />
+            and name LIKE #{name}
+        </if>
+        <if test="filter.superAdmin == null">
+            and ${filter.ds}
+        </if>
+        or unit_id = 0
         ORDER BY id DESC
         <!--<if test="filter.limit.first != null and filter.limit.last != null">-->
             <!--LIMIT #{filter.limit.last} offset #{filter.limit.first}-->

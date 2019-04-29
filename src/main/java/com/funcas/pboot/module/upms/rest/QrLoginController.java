@@ -20,6 +20,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -54,6 +55,9 @@ public class QrLoginController extends BaseController {
     private final MessageContainer<QrLoginMessage> messageContainer;
     private final SysProps sysProps;
     private final IAccountService accountService;
+
+    @Value("${server.port}")
+    private Integer port;
 
     @Autowired
     public QrLoginController(RedisTemplate<String, String> redisTemplate, MessageContainer<QrLoginMessage> messageContainer, SysProps sysProps, IAccountService accountService) {
@@ -145,7 +149,7 @@ public class QrLoginController extends BaseController {
                 params.add("auth_type", "wx_scan");
                 HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
-                OAuth2AccessToken ret = restTemplate.postForObject("http://localhost:9080/api/oauth/token", requestEntity, OAuth2AccessToken.class);
+                OAuth2AccessToken ret = restTemplate.postForObject("http://localhost:" + port + "/api/oauth/token", requestEntity, OAuth2AccessToken.class);
 
                 AuthUtils.sendMessage(ticket, QrLoginCode.SUCCESS.getValue(), JacksonUtils.obj2json(ret));
                 redisTemplate.opsForHash().delete(AuthUtils.KEY_WECHAT_SESSION, ticket);

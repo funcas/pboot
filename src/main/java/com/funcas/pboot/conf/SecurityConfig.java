@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
         http.formLogin().permitAll()
                 // 登出页
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/")

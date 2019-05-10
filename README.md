@@ -18,7 +18,7 @@
 
 ### 前端项目地址
 
-> pboot-front [https://gitee.com/funcas/pboot-front](https://gitee.com/funcas/pboot-front "With a Title"). 
+> pboot-front [https://github.com/funcas/pboot-front](https://github.com/funcas/pboot-front "With a Title"). 
 
 #### TODO
 * 缓存优化

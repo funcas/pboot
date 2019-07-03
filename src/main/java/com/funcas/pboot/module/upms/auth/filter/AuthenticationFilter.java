@@ -85,9 +85,11 @@ public class AuthenticationFilter extends GenericFilterBean implements Applicati
         //延迟加载认证器
         if(this.authenticators == null){
             synchronized (this){
-                Map<String, IAuthenticator> integrationAuthenticatorMap = applicationContext.getBeansOfType(IAuthenticator.class);
-                if(integrationAuthenticatorMap != null){
-                    this.authenticators = integrationAuthenticatorMap.values();
+                if(this.authenticators == null){
+                    Map<String, IAuthenticator> integrationAuthenticatorMap = applicationContext.getBeansOfType(IAuthenticator.class);
+                    if(integrationAuthenticatorMap != null){
+                        this.authenticators = integrationAuthenticatorMap.values();
+                    }
                 }
             }
         }
